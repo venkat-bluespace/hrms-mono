@@ -1,7 +1,5 @@
 package com.bluespace.tech.hrms.security.core;
 
-import java.util.Properties;
-
 //import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
