@@ -8,8 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +20,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
 import com.bluespace.tech.hrms.domain.client.Client;
+import com.bluespace.tech.hrms.domain.employee.EmployeeDetails;
+import com.bluespace.tech.hrms.domain.general.Address;
 import com.bluespace.tech.hrms.repositories.client.ClientRepository;
 import com.bluespace.tech.hrms.security.domain.AccountApproval;
 import com.bluespace.tech.hrms.security.domain.AccountCreationEmail;
 import com.bluespace.tech.hrms.security.domain.CompanyRegistration;
 import com.bluespace.tech.hrms.security.domain.DefaultResponse;
 import com.bluespace.tech.hrms.security.domain.TokenVerification;
+import com.bluespace.tech.hrms.security.domain.User;
 import com.bluespace.tech.hrms.security.repositories.AccountApprovalRepository;
 import com.bluespace.tech.hrms.security.repositories.CompanyRegistrationRepository;
 import com.bluespace.tech.hrms.security.util.EmailHandler;
@@ -34,7 +37,7 @@ import com.bluespace.tech.hrms.service.client.ClientService;
 
 public class RegistrationController {
 
-	private static Logger logger = LogManager.getLogger(RegistrationController.class);
+	private static Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
 	@Autowired
 	private EmailHandler emailHandler;
@@ -76,16 +79,21 @@ public class RegistrationController {
 				response.setStatus(400);
 				response.getOutputStream().println("{ \"error\": \" Blank form received \"}");
 			}
-			String userName = (String) registrationDetails.get("userName");
+			String firstName = (String) registrationDetails.get("firstName");
+			String lastName = (String) registrationDetails.get("lastName");
 			String emailAddress = (String) registrationDetails.get("emailAddress");
 			String companyName = (String) registrationDetails.get("clientName");
 			String companyURL = (String) registrationDetails.get("companyURL");
-			String clientStatus = (String) registrationDetails.get("clientStatus");
-			String phoneNumber = (String) registrationDetails.get("phoneNumber");
+			String zipCode = (String) registrationDetails.get("zipCode");
+			String contactNumber = (String) registrationDetails.get("contactNumber");
+			Long employeeStrength = (Long) registrationDetails.get("employeeStrength");
+//			String registeredUserRole = (String) registrationDetails.get("registeredUserRole");
+			
+/*			String clientStatus = (String) registrationDetails.get("clientStatus");
 			String federalId = (String) registrationDetails.get("federalId");
 			String address = (String) registrationDetails.get("address");
 			String currentStatus = (String) registrationDetails.get("currentStatus");
-/*			String addressLine1 = (String) registrationDetails.get("addressLine1");
+			String addressLine1 = (String) registrationDetails.get("addressLine1");
 			String addressLine2 = (String) registrationDetails.get("addressLine2");
 			String city = (String) registrationDetails.get("city");
 			String stateCode = (String) registrationDetails.get("stateCode");
@@ -96,8 +104,9 @@ public class RegistrationController {
 			String password = (String) registrationDetails.get("password");
 			String confirmPassword = (String) registrationDetails.get("confirmPassword");
 			// Comment out the below Debug log statements before pushing it to Production
-			logger.debug("Input received: " + userName + " | " + password + " | " + confirmPassword + " | "
-					+ companyName + " | " + phoneNumber);
+			logger.debug("Received details of the registered user are {}, {} and {}", emailAddress, password,
+					contactNumber);
+
 			if (!password.equals(confirmPassword)) {
 				// Comment out the below Debug log statements before pushing it to Production
 				logger.debug("Passwords given in the fields Password and Confirm Password do not match");
@@ -118,11 +127,27 @@ public class RegistrationController {
 				company = (CompanyRegistration) this.companyRegRepo.save(record);
 			}
 
+			Address clientAddress = new Address();
+			clientAddress.setZipCode(zipCode);
 			Client clientAccount = new Client();
 			clientAccount.setEmailAddress(emailAddress);
 			clientAccount.setClientName(companyName);
 			clientAccount.setCompanyURL(companyURL);
-			clientAccount.setPhoneNumber(phoneNumber);
+			clientAccount.setPhoneNumber(contactNumber);
+			clientAccount.setEmployeeStrength(employeeStrength);
+			
+			
+			
+			User newUser = new User();
+			newUser.setUserName(emailAddress);
+			newUser.setPassword(password);
+			
+			
+			EmployeeDetails empClientDetails = new EmployeeDetails();
+			empClientDetails.setFirstName(firstName);
+			empClientDetails.setLastName(lastName);
+			//empClientDetails.setClient(companyName);
+			
 /*			clientAccount.setAddress(address);
 			clientAccount.setCurrentStatus(currentStatus);
 			clientAccount.setAddressLine1(addressLine1);
@@ -141,7 +166,7 @@ public class RegistrationController {
 			approval.setEmail(newClient.getEmailAddress());
 
 			Client adminAccount = this.clientRepository
-					.findClientByEmailAddress(this.mailTemplateConfiguration.getMailSuperAdmins().trim());
+					.findByEmailAddress(this.mailTemplateConfiguration.getMailSuperAdmins().trim());
 			approval.setClientAccount(adminAccount);
 
 			this.accountApprovalRepository.save(approval);

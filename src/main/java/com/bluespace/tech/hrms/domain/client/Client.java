@@ -2,6 +2,7 @@ package com.bluespace.tech.hrms.domain.client;
 
 //import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -35,6 +36,7 @@ import lombok.NoArgsConstructor;
 	private String phoneNumber;
 	private String companyURL;
 	private String emailAddress;
+	private long employeeStrength;
 	private Date incorporatedDate;
 	private String incorporatedState;
 	private Integer dunsId;
@@ -44,8 +46,8 @@ import lombok.NoArgsConstructor;
 	private boolean isEndClient;
 	private boolean accountExpired;
 	private boolean accountLocked;
-	@DBRef private Address address;
-	@DBRef private CurrentStatus currentStatus;
+	@DBRef private List<Address> address;
+	@DBRef private List<CurrentStatus> currentStatus;
 	private Date createdOn;
 	private String createdBy;
 	private Date modifiedOn;

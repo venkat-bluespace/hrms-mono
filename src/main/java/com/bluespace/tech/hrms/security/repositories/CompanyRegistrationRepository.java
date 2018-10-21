@@ -10,11 +10,9 @@ import com.bluespace.tech.hrms.security.domain.CompanyRegistration;
 @Repository
 public interface CompanyRegistrationRepository extends MongoRepository<CompanyRegistration, Long> {
 
-	public abstract CompanyRegistration findCompanyRegistrationBy_id(long paramLong);
+	public abstract CompanyRegistration findById(long paramLong);
 
 	public abstract List<CompanyRegistration> findAll();
-
-	public abstract CompanyRegistration findBy_id(CompanyRegistration paramLong);
 
 	public abstract CompanyRegistration findCompanyRegistrationByCompanyNameIgnoreCase(String paramString);
 

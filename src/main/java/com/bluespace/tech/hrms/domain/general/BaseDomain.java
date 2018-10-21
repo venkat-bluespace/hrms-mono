@@ -1,4 +1,4 @@
-package com.bluespace.tech.hrms.security.domain;
+package com.bluespace.tech.hrms.domain.general;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +13,7 @@ public abstract class BaseDomain implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id @Getter private ObjectId id;
+	@Id @Getter private ObjectId _id;
 	@Getter private Long version;
 	@Getter @Setter private Date lastUpdatedDate;
 	@Getter @Setter private String lastUpdatedUser;
@@ -42,11 +42,11 @@ public abstract class BaseDomain implements Serializable {
 			return false;
 		}
 		BaseDomain other = (BaseDomain) obj;
-		if (this.id == null) {
-			if (other.id != null) {
+		if (this._id == null) {
+			if (other._id != null) {
 				return false;
 			}
-		} else if (!this.id.equals(other.id)) {
+		} else if (!this._id.equals(other._id)) {
 			return false;
 		}
 		return true;

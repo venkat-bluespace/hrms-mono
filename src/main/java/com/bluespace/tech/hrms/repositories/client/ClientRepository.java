@@ -8,12 +8,12 @@ import com.bluespace.tech.hrms.domain.client.Client;
 @Repository
 public interface ClientRepository extends MongoRepository<Client, String> {
 
-	public abstract Client findClientByEmailAddress(String paramString);
+	/*public abstract Client findUserAccountByUserName(String paramString);*/
 
-	public abstract Client findClientByClientId(long paramLong);
+	public abstract Client findByEmailAddress(String paramString);
 
-	public abstract Client findClientByClientName(String paramString);
-	
-	public abstract String deleteClientByClientName(String clientName);
+	//public abstract Client findClientAccountById(long paramLong);
+
+	public abstract String deleteByClientName(String clientName);
 
 }

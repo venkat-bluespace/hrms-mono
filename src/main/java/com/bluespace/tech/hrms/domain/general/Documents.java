@@ -1,4 +1,4 @@
-package com.bluespace.tech.hrms.domain.generic;
+package com.bluespace.tech.hrms.domain.general;
 
 import java.util.Date;
 

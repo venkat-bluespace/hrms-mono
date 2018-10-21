@@ -15,17 +15,17 @@ import com.bluespace.tech.hrms.security.repositories.UserAccountRepository;
 //@Transactional
 public class UserAccountServiceImpl implements UserAccountService {
 
-	@Autowired
+	//@Autowired
 	private UserAccountRepository userAccountRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@Autowired
+	//@Autowired
 	private TokenVerificationRepository tokenRepository;
 
 	@Transactional
-	public UserAccount findUserAccountByUsername(String userName) {
+	public UserAccount findUserAccountByUserName(String userName) {
 		return this.userAccountRepository.findUserAccountByUserName(userName);
 	}
 

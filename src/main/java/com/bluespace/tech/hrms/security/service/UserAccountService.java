@@ -5,7 +5,7 @@ import com.bluespace.tech.hrms.security.domain.UserAccount;
 
 public interface UserAccountService {
 
-	public abstract UserAccount findUserAccountByUsername(String paramString);
+	public abstract UserAccount findUserAccountByUserName(String paramString);
 
 	public abstract UserAccount save(UserAccount paramUserAccount);
 

@@ -2,14 +2,11 @@ package com.bluespace.tech.hrms.security.service;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bluespace.tech.hrms.security.core.exception.BusinessException;
+//import com.bluespace.tech.hrms.security.core.exception.BusinessException;
 import com.bluespace.tech.hrms.security.domain.UserRole;
-import com.bluespace.tech.hrms.security.domain.UserRoleAuthority;
 import com.bluespace.tech.hrms.security.repositories.UserRoleRepository;
 
 @Service
@@ -19,12 +16,12 @@ public class UserRoleServiceImpl implements UserRoleService {
 
 /*	@PreAuthorize("hasRole('SUPER_ADMIN') or (hasRole('ACCESS_USER_ROLES'))")
 	public UserRole findUserRoleByRoleName(String roleName) {
-		return this.userRoleRepository.findUserRoleByRole(roleName);
+		return this.userRoleRepository.findUserRoleByRoleName(roleName);
 	}
 
 	@PreAuthorize("hasRole('SUPER_ADMIN') or (hasRole('ACCESS_USER_ROLES'))")
 	public List<UserRole> findByRoleNameLike(String roleName) {
-		return this.userRoleRepository.findUserRoleByRoleLike(roleName);
+		return this.userRoleRepository.findByRoleNameLike(roleName);
 	}*/
 
 	@PreAuthorize("hasRole('SUPER_ADMIN') or (hasRole('ACCESS_USER_ROLES'))")
@@ -33,11 +30,16 @@ public class UserRoleServiceImpl implements UserRoleService {
 	}
 
 /*	@PreAuthorize("hasRole('SUPER_ADMIN') or (hasRole('ACCESS_USER_ROLES'))")
-	public UserRole getUserRoleByUserName(String userName) {
-		return this.userRoleRepository.findUserRoleByUserName(userName);
-	}*/
+	public List<UserRole> findByDescriptionLike(String description) {
+		return this.userRoleRepository.findByDescriptionLike(description);
+	}
 
-/*	@PreAuthorize("hasRole('SUPER_ADMIN') or (hasRole('ACCESS_USER_ROLES'))")
+	@PreAuthorize("hasRole('SUPER_ADMIN') or (hasRole('ACCESS_USER_ROLES'))")
+	public UserRole getUserRoleById(String userName) {
+		return this.userRoleRepository.findOne(userName);
+	}
+
+	@PreAuthorize("hasRole('SUPER_ADMIN') or (hasRole('ACCESS_USER_ROLES'))")
 	public List<UserRole> getUserRoleByIds(List<Long> userRoleIds) {
 		return this.userRoleRepository.findAll(userRoleIds);
 	}

@@ -12,6 +12,6 @@ public interface UserAccountRepository extends MongoRepository<UserAccount, Long
 
 	public abstract UserAccount findUserAccountByEmail(String paramString);
 
-	public abstract UserAccount findUserAccountByUserId(long paramLong);
+	/*public abstract UserAccount findUserAccountById(long paramLong);*/
 
 }

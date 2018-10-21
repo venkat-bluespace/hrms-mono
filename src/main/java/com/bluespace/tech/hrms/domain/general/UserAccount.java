@@ -1,4 +1,4 @@
-package com.bluespace.tech.hrms.security.domain;
+package com.bluespace.tech.hrms.domain.general;
 
 import java.io.Serializable;
 import java.util.Collection;

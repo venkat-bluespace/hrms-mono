@@ -22,7 +22,7 @@ public class ClientServiceImpl implements ClientService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	@Autowired
+	//@Autowired
 	private TokenVerificationRepository tokenVerificationRepository;
 
 	@Override
@@ -36,7 +36,7 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	public void deleteClient(String clientName) {
-		this.clientRepository.deleteClientByClientName(clientName);
+		this.clientRepository.deleteByClientName(clientName);
 	}
 
 	@Override
