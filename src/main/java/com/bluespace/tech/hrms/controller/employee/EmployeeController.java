@@ -1,5 +1,6 @@
 package com.bluespace.tech.hrms.controller.employee;
 
+import java.io.InputStream;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -27,8 +28,10 @@ import com.bluespace.tech.hrms.exception.EntityNotFoundException;
 import com.bluespace.tech.hrms.service.employee.EmployeeService;
 import com.mongodb.MongoException;
 
+//import com.sun.jersey.multipart.FormDataParam;
+
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/")
 public class EmployeeController {
 
@@ -80,8 +83,16 @@ public class EmployeeController {
 	// Creates/adds a new employee to a client
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(path = "/employee/create", consumes = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE })
+			MediaType.APPLICATION_XML_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, produces = {
+					MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,
+					MediaType.MULTIPART_FORM_DATA_VALUE })
+/*	public EmployeeDetails addEmployee(
+			@Validated  @RequestBody  @FormDataParam(value = "employeeDetails") EmployeeDetails employeeDetails,
+			@FormDataParam(value = "profileImage") InputStream profileImage) {
+		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
+		return newEmployeeDetails;
+	}*/
+	
 	public EmployeeDetails addEmployee(@Validated @RequestBody EmployeeDetails employeeDetails) {
 		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
 		return newEmployeeDetails;

@@ -2,7 +2,6 @@ package com.bluespace.tech.hrms.security.repositories;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

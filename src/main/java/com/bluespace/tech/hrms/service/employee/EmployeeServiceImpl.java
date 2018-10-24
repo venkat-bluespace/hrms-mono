@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.Binary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.bluespace.tech.hrms.config.MongoConfig;
 import com.bluespace.tech.hrms.domain.employee.EmployeeDetails;
 import com.bluespace.tech.hrms.dto.EmployeeDetailsDTO;
 import com.bluespace.tech.hrms.exception.EntityNotFoundException;
 import com.bluespace.tech.hrms.repositories.employee.EmployeeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
@@ -29,6 +32,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.UpdateResult;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
@@ -45,6 +50,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private MongoClient mongoClient;
+	
+	private MongoConfig mongoConfig;
 
 	public long getNextSequence() {
 		return employeeId++;
@@ -53,14 +60,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeDetails createNewEmployee(@ModelAttribute EmployeeDetails newEmployee) {
 		EmployeeDetails newEmployeeDetails = null;
 		mongoClient = new MongoClient("localhost", 27017);
-		/*
-		 * MongoDatabase db = mongoClient.getDatabase("hrms"); MongoCollection<Document>
-		 * collection = db.getCollection("employeeDetails");
-		 */
+		 
 		try {
 			long x = getNextSequenceId();
-			
+
 			newEmployee.setEmployeeId(x + 1);
+			
+/*			Binary newEmpImage = newEmployee.getProfileImage();
+			GridFS empImage = new GridFS((DB) mongoConfig.db(), "hrms");
+			GridFSInputFile uploadedImage = empImage.createFile(newEmpImage.getData());
+			uploadedImage.setFilename("profileImage");
+			uploadedImage.save();*/
+			
 			Calendar currentTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 			newEmployee.setCreatedOn(currentTime.getTime());
 			newEmployeeDetails = employeeRepository.save(newEmployee);
@@ -71,6 +82,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return newEmployeeDetails;
 	}
+
 	
 	public long getNextSequenceId() {
 		Document empIdDoc = null;

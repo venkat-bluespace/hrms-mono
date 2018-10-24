@@ -2,8 +2,6 @@ package com.bluespace.tech.hrms.security.domain;
 
 import java.io.Serializable;
 
-import org.bson.types.ObjectId;
-
 import lombok.Getter;
 import lombok.Setter;
 

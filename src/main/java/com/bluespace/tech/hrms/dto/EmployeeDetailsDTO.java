@@ -1,9 +1,8 @@
 package com.bluespace.tech.hrms.dto;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.NotNull;
 
 import org.bson.types.Binary;
 
@@ -15,7 +14,7 @@ import lombok.Data;
 public class EmployeeDetailsDTO {
 
 	private long employeeId;
-	@NotNull(message="Invalid Input")
+	//@NotNull(message="Invalid Input")
 	private String firstName;
 	private String middleName;
 	private String lastName;
