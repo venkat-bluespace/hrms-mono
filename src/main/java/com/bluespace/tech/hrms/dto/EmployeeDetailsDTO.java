@@ -40,7 +40,7 @@ public class EmployeeDetailsDTO {
 	private Date hireDate;
 	private Date terminationDate;
 	private Date employmentLastDate;
-	private Client client;
+	private String clientName;
 	private String currentStatus;
 	private String jobTitle;
 	private String organisation;

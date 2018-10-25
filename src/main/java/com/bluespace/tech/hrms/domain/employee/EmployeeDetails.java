@@ -49,10 +49,10 @@ public class EmployeeDetails {
 	private Date terminationDate;
 	private Date employmentLastDate;
 
-	@DBRef
-	private Client client;
+	//@DBRef
+	private String clientName;
 
-	@DBRef
+	//@DBRef
 	private String currentStatus;
 
 	private String jobTitle;

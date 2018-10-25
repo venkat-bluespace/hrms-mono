@@ -36,7 +36,7 @@ public class EmployeeDetailsMapper {
 		empDetails.setHireDate(empDetailsDTO.getHireDate());
 		empDetails.setTerminationDate(empDetailsDTO.getTerminationDate());
 		empDetails.setEmploymentLastDate(empDetailsDTO.getEmploymentLastDate());
-		empDetails.setClient(empDetailsDTO.getClient());
+		empDetails.setClientName(empDetailsDTO.getClientName());
 		empDetails.setCurrentStatus(empDetailsDTO.getCurrentStatus());
 		empDetails.setJobTitle(empDetailsDTO.getJobTitle());
 		empDetails.setOrganisation(empDetailsDTO.getOrganisation());

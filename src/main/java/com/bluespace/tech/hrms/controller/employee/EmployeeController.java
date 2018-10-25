@@ -31,7 +31,7 @@ import com.mongodb.MongoException;
 //import com.sun.jersey.multipart.FormDataParam;
 
 @RestController
-//@CrossOrigin
+@CrossOrigin
 @RequestMapping("/")
 public class EmployeeController {
 
