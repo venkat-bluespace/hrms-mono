@@ -1,7 +1,7 @@
 package com.bluespace.tech.hrms.domain.client;
 
 //import java.io.Serializable;
-import java.util.Date;
+//import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 //public class Client extends BaseDomain implements Serializable {
-  public class Client {
+public class Client {
 //	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -37,20 +37,22 @@ import lombok.NoArgsConstructor;
 	private String companyURL;
 	private String emailAddress;
 	private long employeeStrength;
-	private Date incorporatedDate;
+	private String incorporatedDate;
 	private String incorporatedState;
-	private Integer dunsId;
-	private Integer nacisCode;
+	private long dunsId;
+	private long nacisCode;
 	private boolean isActive;
 	private boolean isVendor;
 	private boolean isEndClient;
 	private boolean accountExpired;
 	private boolean accountLocked;
-	@DBRef private List<Address> address;
-	@DBRef private List<CurrentStatus> currentStatus;
-	private Date createdOn;
+	@DBRef
+	private List<Address> address;
+	@DBRef
+	private List<CurrentStatus> currentStatus;
+	private String createdOn;
 	private String createdBy;
-	private Date modifiedOn;
+	private String modifiedOn;
 	private String modifiedBy;
 
 }

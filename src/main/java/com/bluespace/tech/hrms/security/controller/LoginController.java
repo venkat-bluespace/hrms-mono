@@ -13,7 +13,7 @@ public class LoginController extends AbstractBaseController {
 
 	private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-	@PostMapping(value = { "/authenticate" }, consumes = { "application/json" })
+	@PostMapping(path = { "/authenticate" }, consumes = { "application/json" })
 	public void login(@RequestBody Credentials credentials) {
 		logger.info("Inside LoginController class to authenticate.");
 	}

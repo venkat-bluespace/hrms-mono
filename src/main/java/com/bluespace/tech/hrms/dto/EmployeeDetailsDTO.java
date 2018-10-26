@@ -1,12 +1,6 @@
 package com.bluespace.tech.hrms.dto;
 
-import java.util.Date;
-
-//import javax.validation.constraints.NotNull;
-
 import org.bson.types.Binary;
-
-import com.bluespace.tech.hrms.domain.client.Client;
 
 import lombok.Data;
 
@@ -14,7 +8,6 @@ import lombok.Data;
 public class EmployeeDetailsDTO {
 
 	private long employeeId;
-	//@NotNull(message="Invalid Input")
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -37,9 +30,9 @@ public class EmployeeDetailsDTO {
 	private String secondaryContactRelation;
 	private String secondaryContactPhone;
 	private String secondaryContactAltPhone;
-	private Date hireDate;
-	private Date terminationDate;
-	private Date employmentLastDate;
+	private String hireDate;
+	private String terminationDate;
+	private String employmentLastDate;
 	private String clientName;
 	private String currentStatus;
 	private String jobTitle;
@@ -50,9 +43,9 @@ public class EmployeeDetailsDTO {
 	private String employmentStatus;
 	private String reportingManager;
 	private boolean active;
-	private Date createdOn;
+	private String createdOn;
 	private String createdBy;
-	private Date modifiedOn;
+	private String modifiedOn;
 	private String modifiedBy;
-	
+
 }

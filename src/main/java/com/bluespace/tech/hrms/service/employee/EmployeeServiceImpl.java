@@ -1,7 +1,11 @@
 package com.bluespace.tech.hrms.service.employee;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -22,6 +26,9 @@ import com.bluespace.tech.hrms.domain.employee.EmployeeDetails;
 import com.bluespace.tech.hrms.dto.EmployeeDetailsDTO;
 import com.bluespace.tech.hrms.exception.EntityNotFoundException;
 import com.bluespace.tech.hrms.repositories.employee.EmployeeRepository;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -53,9 +60,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	private MongoConfig mongoConfig;
 
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 	public long getNextSequence() {
 		return employeeId++;
 	}
+
+/*	public Date deserialize(JsonParser paramJsonParser, DeserializationContext paramDeserializationContext)
+			throws IOException, JsonProcessingException {
+		String str = paramJsonParser.getText().trim();
+		try {
+			return dateFormat.parse(str);
+		} catch (ParseException e) {
+			logger.error("The parsing of date failed with the exception: " + e);
+		}
+		return paramDeserializationContext.parseDate(str);
+	}*/
 
 	public EmployeeDetails createNewEmployee(@ModelAttribute EmployeeDetails newEmployee) {
 		EmployeeDetails newEmployeeDetails = null;
@@ -73,7 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			uploadedImage.save();*/
 			
 			Calendar currentTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-			newEmployee.setCreatedOn(currentTime.getTime());
+			newEmployee.setCreatedOn(currentTime.getTime().toString());
 			newEmployeeDetails = employeeRepository.save(newEmployee);
 		} catch (MongoException e) {
 			logger.error("Connection failed due to " + e);
@@ -164,8 +184,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 		try {
-			Bson filter = null;
-			filter = eq("employeeId", id);
+			Bson filter = eq("employeeId", id);
 
 			@SuppressWarnings("unchecked")
 			Map<String, Object> requestMap = mapper.convertValue(employeeDetails, Map.class);

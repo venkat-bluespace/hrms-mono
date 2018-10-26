@@ -51,6 +51,14 @@ public class EmployeeController {
 		return clientName;
 	}
 
+	// Get the list of all Employees of a Client
+	@GetMapping(path = "/employee", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE })
+	public List<EmployeeDetails> getAllEmployees() {
+		return employeeService.getAllEmployees();
+	}
+	
 	// Get Employee details based off his id
 	@GetMapping(path = "/employee/{employeeId}", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
@@ -59,6 +67,24 @@ public class EmployeeController {
 		return employeeService.getEmployeeById(id);
 	}
 
+	// Creates or adds a new employee to a client
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping(path = "/employee/create", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, produces = {
+					MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,
+					MediaType.MULTIPART_FORM_DATA_VALUE })
+/*	public EmployeeDetails addEmployee(
+			@Validated  @RequestBody  @FormDataParam(value = "employeeDetails") EmployeeDetails employeeDetails,
+			@FormDataParam(value = "profileImage") InputStream profileImage) {
+		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
+		return newEmployeeDetails;
+	}*/
+	
+	public EmployeeDetails addEmployee(@Validated @RequestBody EmployeeDetails employeeDetails) {
+		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
+		return newEmployeeDetails;
+	}
+	
 	// Update Employee details based on his employeeId
 	@PutMapping(path = "/employee/{employeeId}", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
@@ -80,24 +106,6 @@ public class EmployeeController {
 	 * }
 	 */
 
-	// Creates/adds a new employee to a client
-	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping(path = "/employee/create", consumes = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, produces = {
-					MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,
-					MediaType.MULTIPART_FORM_DATA_VALUE })
-/*	public EmployeeDetails addEmployee(
-			@Validated  @RequestBody  @FormDataParam(value = "employeeDetails") EmployeeDetails employeeDetails,
-			@FormDataParam(value = "profileImage") InputStream profileImage) {
-		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
-		return newEmployeeDetails;
-	}*/
-	
-	public EmployeeDetails addEmployee(@Validated @RequestBody EmployeeDetails employeeDetails) {
-		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
-		return newEmployeeDetails;
-	}
-
 	// Delete an employee based on his employeeId
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping(path = "/employee/{employeeId}", consumes = { MediaType.APPLICATION_JSON_VALUE,
@@ -110,11 +118,4 @@ public class EmployeeController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	// Get the list of all Employees of a Client
-	@GetMapping(path = "/employee", consumes = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE })
-	public List<EmployeeDetails> getAllEmployees() {
-		return employeeService.getAllEmployees();
-	}
 }

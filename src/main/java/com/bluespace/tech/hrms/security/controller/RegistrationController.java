@@ -158,7 +158,7 @@ public class RegistrationController {
 			clientAccount.setCountry(country);
 			clientAccount.setZipcode(zipCode);*/
 
-			Client newClient = this.clientService.addNewClient(clientAccount);
+			Client newClient = this.clientService.addClient(clientAccount);
 
 			AccountApproval approval = new AccountApproval();
 			approval.setStatus("PENDING");
@@ -218,7 +218,7 @@ public class RegistrationController {
 		clientUser.setActive(true);
 		clientUser.setAccountExpired(false);
 		clientUser.setAccountLocked(false);
-		this.clientService.addNewClient(clientUser);
+		this.clientService.addClient(clientUser);
 		logger.info("Profile activated successfully, the user can now login..");
 		response.setStatus(200);
 		response.getOutputStream()
