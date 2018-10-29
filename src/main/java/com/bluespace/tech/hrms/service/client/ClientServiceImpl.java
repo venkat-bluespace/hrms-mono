@@ -90,7 +90,7 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public boolean updateClient(Client clientDetails, long clientId) {
 
-		mongoClient = new MongoClient("localhost", 27017);
+		/*mongoClient = new MongoClient("localhost", 27017);*/
 		MongoDatabase db = mongoClient.getDatabase("hrms");
 		MongoCollection<Document> collection = db.getCollection("client");
 		ObjectMapper mapper = new ObjectMapper();

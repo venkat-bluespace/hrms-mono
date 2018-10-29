@@ -1,20 +1,18 @@
-package com.bluespace.tech.hrms.domain.general;
+package com.bluespace.tech.hrms.dto;
 
 import java.util.Date;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.bluespace.tech.hrms.domain.client.Client;
 import com.bluespace.tech.hrms.domain.employee.EmployeeDetails;
 
 import lombok.Data;
 
-@Document
 @Data
-public class Documents {
+public class DocumentsDTO {
 	@Id private ObjectId _id;
 	private long documentId;
 	@DBRef private EmployeeDetails employee;

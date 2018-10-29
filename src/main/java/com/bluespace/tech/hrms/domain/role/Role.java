@@ -22,14 +22,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Role {
 
-	@Getter @Setter private int id;
-	@Getter @Setter private String roleName;
-	@Getter @Setter private String roleDesc;
-	@Getter @Setter @DBRef private List<Client> client;
-	@Getter @Setter private CurrentStatus accountStatus;
-	@Getter @Setter private Date createdOn;
-	@Getter @Setter private User createdBy;
-	@Getter @Setter private Date modifiedOn;
-	@Getter @Setter private User modifiedBy;
+	private int id;
+	private String roleName;
+	private String roleDesc;
+	@DBRef private List<Client> client;
+	private CurrentStatus accountStatus;
+	private Date createdOn;
+	private User createdBy;
+	private Date modifiedOn;
+	private User modifiedBy;
 
 }
