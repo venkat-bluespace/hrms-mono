@@ -11,6 +11,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.bluespace.tech.hrms.domain.client.Client;
+import com.bluespace.tech.hrms.security.domain.UserAccount;
 
 @Document
 public class TokenVerification {

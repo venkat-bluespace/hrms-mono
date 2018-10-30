@@ -1,30 +1,30 @@
 package com.bluespace.tech.hrms.security.core;
 
 //import org.apache.velocity.app.VelocityEngine;
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+//import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
+/*import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;*/
 
 @Configuration
 @EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
+/*	@Autowired
 	private AuthenticationFailure authenticationFailure;
 	@Autowired
 	private AuthenticationSuccess authenticationSuccess;
 	@Autowired
-	private EntryPointUnauthorizedHandler unauthorizedHandler;
+	private EntryPointUnauthorizedHandler unauthorizedHandler;*/
 
 /*	@Bean
 	public VelocityEngine velocityEngine() throws Exception {
@@ -39,11 +39,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return velocityEngine;
 	}*/
 
-	private CsrfTokenRepository csrfTokenRepository() {
+/*	private CsrfTokenRepository csrfTokenRepository() {
 		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
 		repository.setHeaderName("X-XSRF-TOKEN");
 		return repository;
-	}
+	}*/
 
 	protected void configure(HttpSecurity http) throws Exception {
 /*		http.csrf().csrfTokenRepository(csrfTokenRepository()).and()

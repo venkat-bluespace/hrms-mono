@@ -15,9 +15,8 @@ import lombok.Data;
 @Document
 @Data
 public class Documents {
-
 	@Id private ObjectId _id;
-	private Integer documentId;
+	private long documentId;
 	@DBRef private EmployeeDetails employee;
 	@DBRef private Client client;
 	private Double fileSize;

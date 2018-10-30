@@ -1,4 +1,4 @@
-package com.bluespace.tech.hrms.controller.attachment;
+package com.bluespace.tech.hrms.controller.documents;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bluespace.tech.hrms.util.constants.Constants;
 
 @RestController
+@RequestMapping("/")
 public class FileAttachmentController {
 
 	private static final Logger logger = LoggerFactory.getLogger(FileAttachmentController.class);
@@ -35,7 +37,7 @@ public class FileAttachmentController {
 		}
 	}
 
-	@GetMapping("/")
+	@GetMapping("/documents")
 	public String index() {
 		return "documents";
 	}

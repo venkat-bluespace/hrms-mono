@@ -9,13 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.bluespace.tech.hrms.domain.client.Client;
 import com.bluespace.tech.hrms.domain.general.CurrentStatus;
-import com.bluespace.tech.hrms.security.domain.User;
+import com.bluespace.tech.hrms.security.domain.UserAccount;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Document(collection="groups")
 @Data
@@ -23,14 +21,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Groups {
 
-	@Getter @Setter @Id private int id;
-	@Getter @Setter private String groupName;
-	@Getter @Setter private String groupDesc;
-	@Getter @Setter @DBRef private List<CurrentStatus> status;
-	@Getter @Setter @DBRef private List<Client> client;
-	@Getter @Setter private Date createdOn;
-	@Getter @Setter @DBRef private User createdBy;
-	@Getter @Setter @DBRef private List<User> modifiedBy;
-	@Getter @Setter private Date modifiedOn;
+	@Id private int id;
+	private String groupName;
+	private String groupDesc;
+	@DBRef private List<CurrentStatus> status;
+	@DBRef private List<Client> client;
+	private Date createdOn;
+	@DBRef private UserAccount createdBy;
+	@DBRef private List<UserAccount> modifiedBy;
+	private Date modifiedOn;
 	
 }

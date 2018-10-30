@@ -1,4 +1,4 @@
-package com.bluespace.tech.hrms.repositories.attachment;
+package com.bluespace.tech.hrms.repositories.documents;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bluespace.tech.hrms.domain.client.Client;
-import com.bluespace.tech.hrms.security.core.exception.UserNotFoundException;
+import com.bluespace.tech.hrms.exception.UserNotFoundException;
 import com.bluespace.tech.hrms.service.client.ClientService;
 
 @Component

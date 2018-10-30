@@ -1,11 +1,11 @@
 package com.bluespace.tech.hrms.security.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class Credentials {
 
-	@Getter @Setter private String userName;
-	@Getter @Setter private String password;
+	private String userName;
+	private String password;
 	
 }

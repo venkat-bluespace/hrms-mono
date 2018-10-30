@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.bluespace.tech.hrms.domain.client.Client;
-import com.bluespace.tech.hrms.security.domain.User;
+import com.bluespace.tech.hrms.security.domain.UserAccount;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,7 +44,7 @@ public class UserCSVAttachment {
     @Getter @Setter @DBRef private List<Client> client;
     @Getter @Setter private String mappingParams;
     @Getter @Setter @DBRef private List<Status> currentStatus;
-    @Getter @Setter @DBRef private List<User> user;
+    @Getter @Setter @DBRef private List<UserAccount> user;
     @Getter @Setter private String action;
     @Getter @Setter private String errorMessage;
     @Getter @Setter private boolean hasHeaderRow;

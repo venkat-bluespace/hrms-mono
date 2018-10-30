@@ -51,7 +51,7 @@ public class UserController extends AbstractBaseController {
 				uiRoles.add(grantPermissionByRole.get(grantedAuthority.getAuthority().toUpperCase()));
 			}
 		}
-		user.setUiRoles(uiRoles);
+		user.setRoles(uiRoles);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
