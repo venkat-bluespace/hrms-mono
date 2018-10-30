@@ -36,7 +36,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 		if (user != null) {
 			response = new BaseResponse();
 			response.setResponseCode(200L);
-			response.setResponseMessage("User " + user.getCreatedUser() + " created/updated successfully");
+			response.setResponseMessage("User " + user.getCreatedBy() + " created/updated successfully");
 		}
 		return this.userAccountRepository.findUserAccountByUserName(user.getUserName());
 	}

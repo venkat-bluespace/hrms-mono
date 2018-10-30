@@ -39,7 +39,7 @@ public class UserRole {
 
 	@Id private ObjectId _id;
 	@DBRef private Roles roles;
-	@DBRef private User userInfo;
+	@DBRef private UserAccount userInfo;
 	private Date createdOn;
 	private String createdBy;
 	private Date modifiedOn;

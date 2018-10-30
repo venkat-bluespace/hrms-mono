@@ -37,7 +37,7 @@ public class FileAttachmentController {
 		}
 	}
 
-	@GetMapping("/")
+	@GetMapping("/documents")
 	public String index() {
 		return "documents";
 	}

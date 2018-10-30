@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,29 +13,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
 import com.bluespace.tech.hrms.domain.client.Client;
 import com.bluespace.tech.hrms.domain.employee.EmployeeDetails;
 import com.bluespace.tech.hrms.domain.general.Address;
 import com.bluespace.tech.hrms.repositories.client.ClientRepository;
+import com.bluespace.tech.hrms.repositories.general.AddressRepository;
 import com.bluespace.tech.hrms.security.domain.AccountApproval;
 import com.bluespace.tech.hrms.security.domain.AccountCreationEmail;
-import com.bluespace.tech.hrms.security.domain.CompanyRegistration;
 import com.bluespace.tech.hrms.security.domain.DefaultResponse;
 import com.bluespace.tech.hrms.security.domain.TokenVerification;
-import com.bluespace.tech.hrms.security.domain.User;
+import com.bluespace.tech.hrms.security.domain.UserAccount;
 import com.bluespace.tech.hrms.security.repositories.AccountApprovalRepository;
-import com.bluespace.tech.hrms.security.repositories.CompanyRegistrationRepository;
+import com.bluespace.tech.hrms.security.repositories.UserAccountRepository;
 import com.bluespace.tech.hrms.security.util.EmailHandler;
 import com.bluespace.tech.hrms.security.util.MailTemplateConfiguration;
 import com.bluespace.tech.hrms.service.client.ClientService;
 
+@RestController
+@RequestMapping("/")
 public class RegistrationController {
 
 	private static Logger logger = LoggerFactory.getLogger(RegistrationController.class);
@@ -42,14 +48,17 @@ public class RegistrationController {
 	@Autowired
 	private EmailHandler emailHandler;
 
-//	@Autowired
+	@Autowired
 	private ClientService clientService;
 
 	@Autowired
 	private ClientRepository clientRepository;
 
 	@Autowired
-	private CompanyRegistrationRepository companyRegRepo;
+	private AddressRepository addressRepository;
+
+	@Autowired
+	private UserAccountRepository userAccountRepository;
 
 	@Autowired
 	private AccountApprovalRepository accountApprovalRepository;
@@ -57,7 +66,7 @@ public class RegistrationController {
 	@Autowired
 	private MailTemplateConfiguration mailTemplateConfiguration;
 
-	@GetMapping(value = "")
+	@GetMapping(value = "/welcome")
 	public ResponseEntity<DefaultResponse> welcomeNewRegistration() {
 		return new ResponseEntity<>(getWelcomeResponse(), HttpStatus.OK);
 	}
@@ -69,7 +78,8 @@ public class RegistrationController {
 		return response;
 	}
 
-	@PostMapping(value = { "/register" }, consumes = { "application/json" }, produces = { "application/json" })
+	@PostMapping(value = { "/register" }, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
 	public void registerNewUser(@RequestBody Map<String, Object> registrationDetails, HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
@@ -86,23 +96,10 @@ public class RegistrationController {
 			String companyURL = (String) registrationDetails.get("companyURL");
 			String zipCode = (String) registrationDetails.get("zipCode");
 			String contactNumber = (String) registrationDetails.get("contactNumber");
-			Long employeeStrength = (Long) registrationDetails.get("employeeStrength");
-//			String registeredUserRole = (String) registrationDetails.get("registeredUserRole");
-			
-/*			String clientStatus = (String) registrationDetails.get("clientStatus");
-			String federalId = (String) registrationDetails.get("federalId");
-			String address = (String) registrationDetails.get("address");
-			String currentStatus = (String) registrationDetails.get("currentStatus");
-			String addressLine1 = (String) registrationDetails.get("addressLine1");
-			String addressLine2 = (String) registrationDetails.get("addressLine2");
-			String city = (String) registrationDetails.get("city");
-			String stateCode = (String) registrationDetails.get("stateCode");
-			String state = (String) registrationDetails.get("state");
-			String country = (String) registrationDetails.get("country");
-			String zipCode = (String) registrationDetails.get("zipCode");*/
-
+			Integer employeeStrength = (Integer) registrationDetails.get("employeeStrength");
 			String password = (String) registrationDetails.get("password");
 			String confirmPassword = (String) registrationDetails.get("confirmPassword");
+			
 			// Comment out the below Debug log statements before pushing it to Production
 			logger.debug("Received details of the registered user are {}, {} and {}", emailAddress, password,
 					contactNumber);
@@ -116,53 +113,43 @@ public class RegistrationController {
 			}
 			logger.debug("Creating the user account");
 
-			CompanyRegistration company = this.companyRegRepo
-					.findCompanyRegistrationByCompanyNameIgnoreCase(companyName);
-			if (company == null) {
+			Calendar currentTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+			Client newClient = this.clientRepository.findByClientName(companyName);
+
+			if (newClient == null) {
 				logger.info("Company is not yet Registered with us. Creating a new record to be sent for approval");
 
-				CompanyRegistration record = new CompanyRegistration();
-				record.setCompanyName(companyName);
-				record.setDescription("To be Updated");
-				company = (CompanyRegistration) this.companyRegRepo.save(record);
+				Client clientAccount = new Client();
+				clientAccount.setEmailAddress(emailAddress);
+				clientAccount.setClientName(companyName);
+				clientAccount.setCompanyURL(companyURL);
+				clientAccount.setPhoneNumber(contactNumber);
+				clientAccount.setEmployeeStrength(employeeStrength);
+				clientAccount.setActive(true);
+
+				newClient = this.clientRepository.save(clientAccount);
 			}
 
 			Address clientAddress = new Address();
+			clientAddress.setClient(newClient);
 			clientAddress.setZipCode(zipCode);
-			Client clientAccount = new Client();
-			clientAccount.setEmailAddress(emailAddress);
-			clientAccount.setClientName(companyName);
-			clientAccount.setCompanyURL(companyURL);
-			clientAccount.setPhoneNumber(contactNumber);
-			clientAccount.setEmployeeStrength(employeeStrength);
-			
-			
-			
-			User newUser = new User();
+			clientAddress.setCreatedOn(currentTime.getTime());
+			this.addressRepository.save(clientAddress);
+
+			UserAccount newUser = new UserAccount();
 			newUser.setUserName(emailAddress);
 			newUser.setPassword(password);
-			
-			
+			newUser.setActive(true);
+			newUser.setCreatedOn(currentTime.getTime());
+			this.userAccountRepository.save(newUser);
+
 			EmployeeDetails empClientDetails = new EmployeeDetails();
 			empClientDetails.setFirstName(firstName);
 			empClientDetails.setLastName(lastName);
-			//empClientDetails.setClient(companyName);
-			
-/*			clientAccount.setAddress(address);
-			clientAccount.setCurrentStatus(currentStatus);
-			clientAccount.setAddressLine1(addressLine1);
-			clientAccount.setAddressLine2(addressLine2);
-			clientAccount.setCity(city);
-			clientAccount.setStatecode(stateCode);
-			clientAccount.setState(state);
-			clientAccount.setCountry(country);
-			clientAccount.setZipcode(zipCode);*/
-
-			Client newClient = this.clientService.addClient(clientAccount);
 
 			AccountApproval approval = new AccountApproval();
 			approval.setStatus("PENDING");
-//			approval.setIdPendingApproval(newClient.getId());
 			approval.setEmail(newClient.getEmailAddress());
 
 			Client adminAccount = this.clientRepository
@@ -173,12 +160,13 @@ public class RegistrationController {
 			logger.info("Pending Approval stats saved successfully");
 
 			AccountCreationEmail mail = new AccountCreationEmail();
+			logger.info("Calling AccountCreationEmail to send new registration: " + mail);
 			mail.setMailTo(this.mailTemplateConfiguration.getMailSuperAdmins());
 			mail.setMailFrom("<no-reply>@hrms.net");
 			mail.setMailSubject("New User Accout Created");
 
 			Map<String, Object> model = new HashMap<String, Object>();
-//			model.put("userName", newClient.getUsername());
+			model.put("userName", newClient.getClientName());
 			model.put("signature", "www.hrms.com");
 			mail.setModel(model);
 

@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.bluespace.tech.hrms.domain.member.details.Lead;
-import com.bluespace.tech.hrms.security.domain.User;
+import com.bluespace.tech.hrms.security.domain.UserAccount;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class CommunicationLogEntry {
 	@Getter @Setter private String message;
 	@Getter @Setter private Date dateSent;
 	@Getter @Setter private Date dateViewed;
-	@Getter @Setter @DBRef private List<User> sentBy;
+	@Getter @Setter @DBRef private List<UserAccount> sentBy;
 	@Getter @Setter @DBRef private List<Lead> lead;
 	@Getter @Setter private String link;
 	@Getter @Setter private Date dateCreated;

@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.bluespace.tech.hrms.domain.general.CurrentStatus;
-import com.bluespace.tech.hrms.security.domain.User;
+import com.bluespace.tech.hrms.security.domain.UserAccount;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,8 +33,8 @@ public class Control {
 	@Getter @Setter private CurrentStatus status;
 	@Getter @Setter private Type type;
 	@Getter @Setter private Date createdOn;
-	@Getter @Setter private User createdBy;
+	@Getter @Setter private UserAccount createdBy;
 	@Getter @Setter private Date modifedOn;
-	@Getter @Setter private User modifiedBy;
+	@Getter @Setter private UserAccount modifiedBy;
 	
 }

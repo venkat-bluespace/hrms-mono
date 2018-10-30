@@ -19,8 +19,8 @@ import com.bluespace.tech.hrms.security.util.EmailHandler;
 @Component
 public class AccountActivationListener implements ApplicationListener<OnRegistrationCompletionEvent> {
 
-	//@Autowired
-	private UserAccountService service;
+	@Autowired
+	private UserAccountService userAccountService;
 	@Autowired
 	private EmailHandler emailHandler;
 	private static final Logger logger = LoggerFactory.getLogger(AccountActivationListener.class);
@@ -35,7 +35,7 @@ public class AccountActivationListener implements ApplicationListener<OnRegistra
 		UserAccount userAccount = event.getUserAccount();
 		logger.debug("Listening to the publish token event...");
 
-		String recipientAddress = userAccount.getEmail();
+		String recipientAddress = userAccount.getEmployeeDetails().getEmailId();
 		String subject = "HRMS User Registration | Account Created";
 
 		AccountCreationEmail mail = new AccountCreationEmail();
@@ -45,14 +45,14 @@ public class AccountActivationListener implements ApplicationListener<OnRegistra
 		if (!event.isAccountCreatedByAdmin()) {
 			logger.info("Internal Account creation by Admin. Skipping token creation and verification link");
 			String token = UUID.randomUUID().toString();
-			this.service.createTokenVerification(userAccount, token);
+			this.userAccountService.createTokenVerification(userAccount, token);
 			String confirmationUrl = event.getAppUrl() + "/new/regitrationConfirm?token=" + token;
 			mail.setVerificationUrl(confirmationUrl);
 			mail.setUnsubscribeUrl(event.getAppUrl() + "/unsubscribe?email=" + recipientAddress);
 		}
 		Map<String, Object> model = new HashMap<>();
 		model.put("userName", userAccount.getUserName());
-		model.put("signature", "www.bluespacemail.com");
+		model.put("signature", "www.hrms.com");
 		mail.setModel(model);
 		try {
 			if (event.isAccountCreatedByAdmin()) {

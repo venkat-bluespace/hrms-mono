@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.bluespace.tech.hrms.security.domain.User;
+import com.bluespace.tech.hrms.security.domain.UserAccount;
 
 import lombok.Data;
 
@@ -16,7 +16,7 @@ import lombok.Data;
 public class HistoryLogHeader {
 
 	@Id private ObjectId id;
-	@DBRef private User userName;
+	@DBRef private UserAccount userName;
 	private Date createdOn;
 	private Integer historyId;
 	private Integer changeRecordNumber;

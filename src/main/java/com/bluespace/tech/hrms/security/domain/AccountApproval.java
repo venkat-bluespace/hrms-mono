@@ -15,13 +15,13 @@ public class AccountApproval extends BaseDomain implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Getter @Setter private Client clientAccount;
-	@Getter @Setter private Long idPendingApproval;
+//	@Getter @Setter private Long idPendingApproval;
 	@Getter @Setter private String status;
 	@Getter @Setter private String email;
 
 	public String toString() {
-		return "AccountApproval [clientAccount=" + this.clientAccount + ", idPendingApproval=" + this.idPendingApproval
-				+ ", status=" + this.status + ", email=" + this.email + "]";
+		return "AccountApproval [clientAccount=" + this.clientAccount + /*", idPendingApproval=" + this.idPendingApproval
+				+ */", status=" + this.status + ", email=" + this.email + "]";
 	}
 
 }
