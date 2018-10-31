@@ -10,7 +10,7 @@ public abstract interface EmployeeService {
 
 	/*public abstract EmployeeDetails createNewEmployee(EmployeeDetailsDTO newEmployeeDetails);*/
 	
-	public abstract EmployeeDetails createNewEmployee(EmployeeDetails newEmployeeDetails);
+	public abstract EmployeeDetails createNewEmployee(EmployeeDetailsDTO newEmployeeDetails);
 
 	public abstract EmployeeDetails getEmployeeById(long employeeId);
 

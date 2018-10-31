@@ -1,7 +1,9 @@
 package com.bluespace.tech.hrms.security.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
@@ -26,6 +28,7 @@ import org.springframework.web.context.request.WebRequest;
 import com.bluespace.tech.hrms.domain.client.Client;
 import com.bluespace.tech.hrms.domain.employee.EmployeeDetails;
 import com.bluespace.tech.hrms.domain.general.Address;
+import com.bluespace.tech.hrms.domain.general.Roles;
 import com.bluespace.tech.hrms.repositories.client.ClientRepository;
 import com.bluespace.tech.hrms.repositories.general.AddressRepository;
 import com.bluespace.tech.hrms.security.domain.AccountApproval;
@@ -33,17 +36,18 @@ import com.bluespace.tech.hrms.security.domain.AccountCreationEmail;
 import com.bluespace.tech.hrms.security.domain.DefaultResponse;
 import com.bluespace.tech.hrms.security.domain.TokenVerification;
 import com.bluespace.tech.hrms.security.domain.UserAccount;
-import com.bluespace.tech.hrms.security.repositories.AccountApprovalRepository;
+//import com.bluespace.tech.hrms.security.repositories.AccountApprovalRepository;
 import com.bluespace.tech.hrms.security.repositories.UserAccountRepository;
+import com.bluespace.tech.hrms.security.service.UserAccountService;
 import com.bluespace.tech.hrms.security.util.EmailHandler;
 import com.bluespace.tech.hrms.security.util.MailTemplateConfiguration;
 import com.bluespace.tech.hrms.service.client.ClientService;
 
 @RestController
 @RequestMapping("/")
-public class RegistrationController {
+public class ClientRegistrationController {
 
-	private static Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+	private static Logger logger = LoggerFactory.getLogger(ClientRegistrationController.class);
 
 	@Autowired
 	private EmailHandler emailHandler;
@@ -58,10 +62,13 @@ public class RegistrationController {
 	private AddressRepository addressRepository;
 
 	@Autowired
+	private UserAccountService userAccountService;
+	
+	@Autowired
 	private UserAccountRepository userAccountRepository;
 
-	@Autowired
-	private AccountApprovalRepository accountApprovalRepository;
+/*	@Autowired
+	private AccountApprovalRepository accountApprovalRepository;*/
 
 	@Autowired
 	private MailTemplateConfiguration mailTemplateConfiguration;
@@ -137,10 +144,15 @@ public class RegistrationController {
 			clientAddress.setCreatedOn(currentTime.getTime());
 			this.addressRepository.save(clientAddress);
 
+			Collection<Roles> roles = new ArrayList<Roles>();
+			String encodedPassword = this.userAccountService.getEncodedPassword(password);
 			UserAccount newUser = new UserAccount();
 			newUser.setUserName(emailAddress);
-			newUser.setPassword(password);
+			newUser.setPassword(encodedPassword);
 			newUser.setActive(true);
+			newUser.setRoles(roles);
+			newUser.setUserType("ADMIN");
+			newUser.setAccountStatus("PENDING");
 			newUser.setCreatedOn(currentTime.getTime());
 			this.userAccountRepository.save(newUser);
 
@@ -156,8 +168,8 @@ public class RegistrationController {
 					.findByEmailAddress(this.mailTemplateConfiguration.getMailSuperAdmins().trim());
 			approval.setClientAccount(adminAccount);
 
-			this.accountApprovalRepository.save(approval);
-			logger.info("Pending Approval stats saved successfully");
+/*			this.accountApprovalRepository.save(approval);
+			logger.info("Pending Approval status saved successfully");*/
 
 			AccountCreationEmail mail = new AccountCreationEmail();
 			logger.info("Calling AccountCreationEmail to send new registration: " + mail);
@@ -166,7 +178,7 @@ public class RegistrationController {
 			mail.setMailSubject("New User Accout Created");
 
 			Map<String, Object> model = new HashMap<String, Object>();
-			model.put("userName", newClient.getClientName());
+			model.put("userName", newClient.getEmailAddress());
 			model.put("signature", "www.hrms.com");
 			mail.setModel(model);
 

@@ -52,7 +52,6 @@ public class MailConfiguration {
 		mailSender.setHost(this.mailHost);
 		mailSender.setPort(this.mailPort);
 		mailSender.setProtocol(this.mailProtocol);
-
 		mailSender.setUsername(this.mailUsername);
 		mailSender.setPassword(this.mailPassword);
 

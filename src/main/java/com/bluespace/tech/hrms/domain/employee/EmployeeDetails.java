@@ -9,11 +9,8 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 //import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 //import com.fasterxml.jackson.annotation.JsonFormat;
-
 //import com.bluespace.tech.hrms.domain.client.Client;
-
 import lombok.Data;
 
 @Document

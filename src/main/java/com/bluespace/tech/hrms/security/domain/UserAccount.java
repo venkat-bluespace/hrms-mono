@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.bluespace.tech.hrms.domain.employee.EmployeeDetails;
+import com.bluespace.tech.hrms.domain.general.Roles;
 
 import lombok.Data;
 
@@ -20,9 +21,10 @@ public class UserAccount {
 	private String userName;
 	private String password;
 	private boolean isActive;
+	private String accountStatus;
 	@DBRef private EmployeeDetails employeeDetails;
 	private String userType;
-	private Collection<String> roles;
+	private Collection<Roles> roles;
 	private Date createdOn;
 	private String createdBy;
 	private Date modifiedOn;
