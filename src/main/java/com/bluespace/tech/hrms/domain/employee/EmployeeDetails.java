@@ -1,5 +1,7 @@
 package com.bluespace.tech.hrms.domain.employee;
 
+import java.util.Date;
+
 //import java.util.Date;
 
 import org.bson.types.Binary;
@@ -46,17 +48,9 @@ public class EmployeeDetails {
 	private String secondaryContactRelation;
 	private String secondaryContactPhone;
 	private String secondaryContactAltPhone;
-/*	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
 	private Date hireDate;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
 	private Date terminationDate;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
-	private Date employmentLastDate;*/
-
-	private String hireDate;
-	private String terminationDate;
-	private String employmentLastDate;
-	
+	private Date employmentLastDate;
 	//@DBRef
 	private String clientName;
 
@@ -71,13 +65,10 @@ public class EmployeeDetails {
 	private String employmentStatus;
 	private String reportingManager;
 	private boolean active;
-/*	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
-	private Date createdOn;*/
-	private String createdOn;
+	private Date createdOn;
 	private String createdBy;
-/*	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
-	private Date modifiedOn;*/
-	private String modifiedOn;
+	private Date modifiedOn;
+	
 	private String modifiedBy;
 
 	public EmployeeDetails(long employeeId, boolean active, String currentStatus) {

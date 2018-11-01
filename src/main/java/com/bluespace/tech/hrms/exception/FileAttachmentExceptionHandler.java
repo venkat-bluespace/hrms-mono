@@ -1,4 +1,4 @@
-package com.bluespace.tech.hrms.domain.attachment;
+package com.bluespace.tech.hrms.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

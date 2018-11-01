@@ -1,4 +1,4 @@
-package com.bluespace.tech.hrms.domain.attachment;
+package com.bluespace.tech.hrms.domain.documents;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -1,4 +1,4 @@
-package com.bluespace.tech.hrms.domain.general;
+package com.bluespace.tech.hrms.domain.documents;
 
 import java.util.Date;
 
@@ -17,6 +17,7 @@ import lombok.Data;
 public class Documents {
 	@Id private ObjectId _id;
 	private long documentId;
+	private String documentName;
 	@DBRef private EmployeeDetails employee;
 	@DBRef private Client client;
 	private Double fileSize;

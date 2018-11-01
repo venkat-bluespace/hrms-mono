@@ -2,6 +2,9 @@ package com.bluespace.tech.hrms.controller.employee;
 
 //import java.io.InputStream;
 import java.io.IOException;
+
+import java.text.ParseException;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,9 +36,7 @@ import com.bluespace.tech.hrms.exception.EntityNotFoundException;
 import com.bluespace.tech.hrms.mappers.EmployeeDetailsMapper;
 import com.bluespace.tech.hrms.service.employee.EmployeeService;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoException;
 
 //import com.sun.jersey.multipart.FormDataParam;
@@ -116,12 +117,11 @@ public class EmployeeController {
 			MediaType.APPLICATION_XML_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, produces = {
 					MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,
 					MediaType.MULTIPART_FORM_DATA_VALUE })
+
 	public EmployeeDetailsDTO addEmployee(@RequestParam("profileImage") MultipartFile multipartFile,
-			HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException {
-		String json = request.getParameter("dto");
-		ObjectMapper objMapper = new ObjectMapper();
-		EmployeeDetailsDTO employeeDetails = objMapper.readValue(json, new TypeReference<EmployeeDetailsDTO>() {
-		});
+			HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException, ParseException {
+
+		EmployeeDetailsDTO employeeDetails = EmployeeDetailsMapper.convertRequestToObject(request);
 		employeeDetails.setProfileImage(multipartFile);
 		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
 		EmployeeDetailsDTO employeeDetailsDto = EmployeeDetailsMapper.mapEntityToDTO(newEmployeeDetails);

@@ -1,6 +1,6 @@
 package com.bluespace.tech.hrms.service.documents;
 
-import com.bluespace.tech.hrms.domain.general.Documents;
+import com.bluespace.tech.hrms.domain.documents.Documents;
 import com.bluespace.tech.hrms.dto.DocumentsDTO;
 
 public interface DocumentsService {
@@ -9,7 +9,9 @@ public interface DocumentsService {
 	
 	public Documents getDocuments(long paramId);
 	
-	public DocumentsDTO storeDocument(DocumentsDTO documents);
+	public void storeDocument(DocumentsDTO documents, long employeeId, String filePath, String fileName);
+	
+	public Documents getDocument(String paramString);
 	
 	public void updateDocument(long documentId);
 	

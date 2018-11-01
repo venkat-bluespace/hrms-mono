@@ -1,5 +1,7 @@
 package com.bluespace.tech.hrms.dto;
 
+import java.util.Date;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -30,9 +32,9 @@ public class EmployeeDetailsDTO {
 	private String secondaryContactRelation;
 	private String secondaryContactPhone;
 	private String secondaryContactAltPhone;
-	private String hireDate;
-	private String terminationDate;
-	private String employmentLastDate;
+	private Date hireDate;
+	private Date terminationDate;
+	private Date employmentLastDate;
 	private String clientName;
 	private String currentStatus;
 	private String jobTitle;
@@ -43,9 +45,9 @@ public class EmployeeDetailsDTO {
 	private String employmentStatus;
 	private String reportingManager;
 	private boolean active;
-	private String createdOn;
+	private Date createdOn;
 	private String createdBy;
-	private String modifiedOn;
+	private Date modifiedOn;
 	private String modifiedBy;
 
 }
