@@ -129,9 +129,6 @@ public class EmployeeDetailsMapper {
 		}
 
 		Binary data = null;
-
-		/* byte b[] = Base64.decodeBase64(filename); */
-
 		byte b[] = Base64.decodeBase64(filename.getOriginalFilename());
 		data = new Binary(b);
 		return data;
@@ -171,7 +168,7 @@ public class EmployeeDetailsMapper {
 			dto.setSsn(request.getParameter("ssn"));
 		}
 		if (request.getParameter("dateOfBirth") != null) {
-			dto.setDateOfBirth(request.getParameter("dateOfBirth"));
+			dto.setDateOfBirth(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("dateOfBirth")));
 		}
 		if (request.getParameter("gender") != null) {
 			dto.setGender(request.getParameter("gender"));
@@ -215,20 +212,20 @@ public class EmployeeDetailsMapper {
 		if (request.getParameter("hireDate") != null) {
 			if (!request.getParameter("hireDate").isEmpty()) {
 				logger.info("Hire Date is: " + request.getParameter("hireDate"));
-				dto.setHireDate(/*new SimpleDateFormat("MM-dd-yyyy").parse(*/request.getParameter("hireDate"));
+				dto.setHireDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("hireDate")));
 				logger.info("Hire Date is: " + dto.getHireDate());
 			}
 		}
 		if (request.getParameter("terminationDate") != null) {
 			if (!request.getParameter("terminationDate").isEmpty()) {
-				dto.setTerminationDate(/*
-						new SimpleDateFormat("MM-dd-yyyy").parse(*/request.getParameter("terminationDate"));
+				dto.setTerminationDate(
+						new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("terminationDate")));
 			}
 		}
 		if (request.getParameter("employmentLastDate") != null) {
 			if (!request.getParameter("employmentLastDate").isEmpty()) {
-				dto.setEmploymentLastDate(/*
-						new SimpleDateFormat("MM-dd-yyyy").parse(*/request.getParameter("employmentLastDate"));
+				dto.setEmploymentLastDate(
+						new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("employmentLastDate")));
 			}
 		}
 		if (request.getParameter("clientName") != null) {
