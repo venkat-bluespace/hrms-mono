@@ -5,9 +5,8 @@ import com.bluespace.tech.hrms.dto.EmployeeDetailsDTO;
 
 public class EmployeeDetailsMapper {
 
-	public static EmployeeDetails mapDTOToEntity(EmployeeDetailsDTO empDetailsDTO, long id)
-	{
-		EmployeeDetails empDetails= new EmployeeDetails();
+	public static EmployeeDetails mapDTOToEntity(EmployeeDetailsDTO empDetailsDTO, long id) {
+		EmployeeDetails empDetails = new EmployeeDetails();
 		empDetails.setEmployeeId(id);
 		empDetails.setFirstName(empDetailsDTO.getFirstName());
 		empDetails.setLastName(empDetailsDTO.getLastName());

@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -70,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			uploadedImage.save();*/
 			
 			Calendar currentTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-			newEmployee.setCreatedOn(currentTime.getTime().toString());
+			newEmployee.setCreatedOn(currentTime.getTime());
 			newEmployeeDetails = employeeRepository.save(newEmployee);
 		} catch (MongoException e) {
 			logger.error("Connection failed due to " + e);
@@ -84,7 +83,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public long getNextSequenceId() {
 		Document empIdDoc = null;
 		long empId = 0;
-		mongoClient = new MongoClient("localhost", 27017);
+		/*mongoClient = new MongoClient("localhost", 27017);*/
 		MongoDatabase db = mongoClient.getDatabase("hrms");
 
 		MongoCollection<Document> collection = db.getCollection("employeeDetails");
