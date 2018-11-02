@@ -42,12 +42,14 @@ public class DocumentsController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	// POST | This methods saves uploaded files into GridFS DB
 	@PostMapping(path = "/{employeeId}/documents", consumes = { MediaType.APPLICATION_PDF_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_PDF_VALUE,
 					MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<DocumentsDTO> storeDocuments(@RequestBody DocumentsDTO documentsDto, @PathVariable long employeeId) {
+	public ResponseEntity<DocumentsDTO> storeDocuments(@RequestBody DocumentsDTO documentsDto,
+			@PathVariable long employeeId, @PathVariable String filePath, String fileName) {
 		logger.info("Calling DocumentsService for storing documents into the database");
-		this.documentsService.storeDocument(documentsDto);
+		this.documentsService.storeDocument(documentsDto, employeeId, filePath, fileName);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

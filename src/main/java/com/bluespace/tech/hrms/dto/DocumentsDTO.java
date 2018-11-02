@@ -15,6 +15,7 @@ import lombok.Data;
 public class DocumentsDTO {
 	@Id private ObjectId _id;
 	private long documentId;
+	private String documentName;
 	@DBRef private EmployeeDetails employee;
 	@DBRef private Client client;
 	private Double fileSize;

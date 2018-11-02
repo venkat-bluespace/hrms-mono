@@ -1,4 +1,4 @@
-package com.bluespace.tech.hrms.domain.attachment;
+package com.bluespace.tech.hrms.domain.documents;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

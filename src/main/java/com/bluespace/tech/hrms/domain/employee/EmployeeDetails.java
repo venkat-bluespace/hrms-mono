@@ -34,6 +34,7 @@ public class EmployeeDetails {
 	private String homePhoneNumber;
 	private String workPhoneNumber;
 	private String ssn;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
 	private Date dateOfBirth;
 	private String gender;
 	private Binary profileImage;
@@ -51,13 +52,13 @@ public class EmployeeDetails {
 	private Date terminationDate;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
 	private Date employmentLastDate;
-	
+
 	//@DBRef
 	private String clientName;
 
 	//@DBRef
 	private String currentStatus;
-
+	
 	private String jobTitle;
 	private String organisation;
 	private String department;
@@ -69,7 +70,6 @@ public class EmployeeDetails {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
 	private Date createdOn;
 	private String createdBy;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
 	private Date modifiedOn;
 	private String modifiedBy;
 

@@ -2,7 +2,7 @@ package com.bluespace.tech.hrms.dto;
 
 import java.util.Date;
 
-import org.bson.types.Binary;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -23,7 +23,7 @@ public class EmployeeDetailsDTO {
 	private String ssn;
 	private Date dateOfBirth;
 	private String gender;
-	private Binary profileImage;
+	private MultipartFile profileImage;
 	private String primaryContact;
 	private String primaryContactRelation;
 	private String primaryContactPhone;

@@ -1,10 +1,9 @@
 package com.bluespace.tech.hrms.security.core;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class ExceptionResource {
-
-	@Getter @Setter private String exceptiontype;
-	@Getter @Setter private String message;
+	private String exceptiontype;
+	private String message;
 }
