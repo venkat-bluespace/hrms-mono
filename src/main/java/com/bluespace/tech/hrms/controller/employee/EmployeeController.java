@@ -1,6 +1,5 @@
 package com.bluespace.tech.hrms.controller.employee;
 
-//import java.io.InputStream;
 import java.io.IOException;
 
 import java.text.ParseException;
@@ -38,8 +37,6 @@ import com.bluespace.tech.hrms.service.employee.EmployeeService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.mongodb.MongoException;
-
-//import com.sun.jersey.multipart.FormDataParam;
 
 @RestController
 @CrossOrigin
@@ -80,24 +77,6 @@ public class EmployeeController {
 		return employeeDetailsDto;
 	}
 
-/*	// Creates or adds a new employee to a client
-	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping(path = "/employee/create", consumes = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, produces = {
-					MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,
-					MediaType.MULTIPART_FORM_DATA_VALUE })
-	public EmployeeDetails addEmployee(
-			@Validated  @RequestBody  @FormDataParam(value = "employeeDetails") EmployeeDetails employeeDetails,
-			@FormDataParam(value = "profileImage") InputStream profileImage) {
-		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
-		return newEmployeeDetails;
-	}
-	
-	public EmployeeDetails addEmployee(@Validated @RequestBody EmployeeDetails employeeDetails) {
-		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
-		return newEmployeeDetails;
-	}*/
-	
 	// Update Employee details based on his employeeId
 	@PutMapping(path = "/employee/{employeeId}", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,

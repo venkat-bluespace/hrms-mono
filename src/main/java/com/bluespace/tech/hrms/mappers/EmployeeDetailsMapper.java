@@ -21,7 +21,7 @@ import com.bluespace.tech.hrms.dto.EmployeeDetailsDTO;
 public class EmployeeDetailsMapper {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeDetailsMapper.class);
-	
+
 	public static EmployeeDetails mapDTOToEntity(EmployeeDetailsDTO empDetailsDTO, long id) {
 		EmployeeDetails empDetails = new EmployeeDetails();
 		empDetails.setEmployeeId(id);
@@ -68,9 +68,9 @@ public class EmployeeDetailsMapper {
 		empDetails.setModifiedOn(empDetailsDTO.getModifiedOn());
 		return empDetails;
 	}
-	public static EmployeeDetailsDTO mapEntityToDTO(EmployeeDetails empDetailsDTO)
-	{
-		EmployeeDetailsDTO empDetails= new EmployeeDetailsDTO();
+
+	public static EmployeeDetailsDTO mapEntityToDTO(EmployeeDetails empDetailsDTO) {
+		EmployeeDetailsDTO empDetails = new EmployeeDetailsDTO();
 		empDetails.setEmployeeId(empDetailsDTO.getEmployeeId());
 		empDetails.setFirstName(empDetailsDTO.getFirstName());
 		empDetails.setLastName(empDetailsDTO.getLastName());
@@ -121,7 +121,7 @@ public class EmployeeDetailsMapper {
 
 		System.out.println(filename.getOriginalFilename());
 		System.out.println(rootLocation.toUri());
-		
+
 		try {
 			Files.copy(filename.getInputStream(), rootLocation.resolve(filename.getOriginalFilename()));
 		} catch (IOException e) {
@@ -209,24 +209,16 @@ public class EmployeeDetailsMapper {
 		if (request.getParameter("secondaryContactAltPhone") != null) {
 			dto.setSecondaryContactAltPhone(request.getParameter("secondaryContactAltPhone"));
 		}
-		if (request.getParameter("hireDate") != null) {
-			if (!request.getParameter("hireDate").isEmpty()) {
-				logger.info("Hire Date is: " + request.getParameter("hireDate"));
-				dto.setHireDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("hireDate")));
-				logger.info("Hire Date is: " + dto.getHireDate());
-			}
+		if (request.getParameter("hireDate") != null && !(request.getParameter("hireDate")).isEmpty()) {
+			dto.setHireDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("hireDate")));
 		}
-		if (request.getParameter("terminationDate") != null) {
-			if (!request.getParameter("terminationDate").isEmpty()) {
-				dto.setTerminationDate(
-						new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("terminationDate")));
-			}
+		if (request.getParameter("terminationDate") != null && !(request.getParameter("terminationDate").isEmpty())) {
+			dto.setTerminationDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("terminationDate")));
 		}
-		if (request.getParameter("employmentLastDate") != null) {
-			if (!request.getParameter("employmentLastDate").isEmpty()) {
-				dto.setEmploymentLastDate(
-						new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("employmentLastDate")));
-			}
+		if (request.getParameter("employmentLastDate") != null
+				&& (!request.getParameter("employmentLastDate").isEmpty())) {
+			dto.setEmploymentLastDate(
+					new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("employmentLastDate")));
 		}
 		if (request.getParameter("clientName") != null) {
 			dto.setClientName(request.getParameter("clientName"));
