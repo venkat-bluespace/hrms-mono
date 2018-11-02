@@ -215,20 +215,20 @@ public class EmployeeDetailsMapper {
 		if (request.getParameter("hireDate") != null) {
 			if (!request.getParameter("hireDate").isEmpty()) {
 				logger.info("Hire Date is: " + request.getParameter("hireDate"));
-				dto.setHireDate(new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("hireDate")));
+				dto.setHireDate(/*new SimpleDateFormat("MM-dd-yyyy").parse(*/request.getParameter("hireDate"));
 				logger.info("Hire Date is: " + dto.getHireDate());
 			}
 		}
 		if (request.getParameter("terminationDate") != null) {
 			if (!request.getParameter("terminationDate").isEmpty()) {
-				dto.setTerminationDate(
-						new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("terminationDate")));
+				dto.setTerminationDate(/*
+						new SimpleDateFormat("MM-dd-yyyy").parse(*/request.getParameter("terminationDate"));
 			}
 		}
 		if (request.getParameter("employmentLastDate") != null) {
 			if (!request.getParameter("employmentLastDate").isEmpty()) {
-				dto.setEmploymentLastDate(
-						new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("employmentLastDate")));
+				dto.setEmploymentLastDate(/*
+						new SimpleDateFormat("MM-dd-yyyy").parse(*/request.getParameter("employmentLastDate"));
 			}
 		}
 		if (request.getParameter("clientName") != null) {

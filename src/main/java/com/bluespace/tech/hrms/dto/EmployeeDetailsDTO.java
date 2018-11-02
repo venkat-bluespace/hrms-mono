@@ -32,9 +32,9 @@ public class EmployeeDetailsDTO {
 	private String secondaryContactRelation;
 	private String secondaryContactPhone;
 	private String secondaryContactAltPhone;
-	private Date hireDate;
-	private Date terminationDate;
-	private Date employmentLastDate;
+	private String hireDate;
+	private String terminationDate;
+	private String employmentLastDate;
 	private String clientName;
 	private String currentStatus;
 	private String jobTitle;
@@ -45,9 +45,9 @@ public class EmployeeDetailsDTO {
 	private String employmentStatus;
 	private String reportingManager;
 	private boolean active;
-	private Date createdOn;
+	private String createdOn;
 	private String createdBy;
-	private Date modifiedOn;
+	private String modifiedOn;
 	private String modifiedBy;
 
 }
