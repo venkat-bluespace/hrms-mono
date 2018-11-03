@@ -2,7 +2,7 @@ package com.bluespace.tech.hrms.security.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
+//import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bluespace.tech.hrms.domain.general.Roles;
 import com.bluespace.tech.hrms.security.constants.AccountTypeConstants;
-import com.bluespace.tech.hrms.security.constants.RoleConstants;
+//import com.bluespace.tech.hrms.security.constants.RoleConstants;
 import com.bluespace.tech.hrms.security.domain.Credentials;
 import com.bluespace.tech.hrms.security.domain.UserAccount;
 
@@ -38,7 +38,7 @@ public class UserAccountController extends AbstractBaseController {
 		user.setUserName(userDetails.getUsername());
 		Collection<String> roles = new ArrayList<>();
 		Collection<Roles> uiRoles = new ArrayList<>();
-		Map<String, String> grantPermissionByRole = RoleConstants.getRoles();
+//		Map<String, String> grantPermissionByRole = RoleConstants.getRoles();
 		for (GrantedAuthority grantedAuthority : userDetails.getAuthorities()) {
 			if (AccountTypeConstants.SUPER_ADMIN.getAccountType().equals(grantedAuthority.getAuthority())) {
 				user.setUserType(AccountTypeConstants.SUPER_ADMIN.getAccountType());

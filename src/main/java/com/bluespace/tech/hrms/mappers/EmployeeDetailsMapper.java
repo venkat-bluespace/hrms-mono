@@ -117,7 +117,7 @@ public class EmployeeDetailsMapper {
 	}
 
 	static Binary insert(MultipartFile filename) {
-		final Path rootLocation = Paths.get("resources");
+		final Path rootLocation = Paths.get("resources/files");
 
 		System.out.println(filename.getOriginalFilename());
 		System.out.println(rootLocation.toUri());

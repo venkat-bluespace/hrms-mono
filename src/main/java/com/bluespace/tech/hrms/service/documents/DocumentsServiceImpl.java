@@ -1,15 +1,15 @@
 package com.bluespace.tech.hrms.service.documents;
 
-import java.io.BufferedReader;
+//import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+//import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+/*import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-import org.bson.Document;
+import org.bson.Document;*/
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -25,12 +25,12 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSBuckets;
-import com.mongodb.client.gridfs.GridFSUploadStream;
+//import com.mongodb.client.gridfs.GridFSUploadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.client.gridfs.model.GridFSUploadOptions;
 import com.mongodb.client.model.Filters;
 import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
+//import com.mongodb.gridfs.GridFSDBFile;
 
 public class DocumentsServiceImpl implements DocumentsService {
 
@@ -94,7 +94,8 @@ public class DocumentsServiceImpl implements DocumentsService {
 		gridFSBucket.find(filter).forEach(new Block<GridFSFile>() {
 			@Override
 			public void apply(GridFSFile gridFSFile) {
-				String file = gridFSBucket.getBucketName();
+				String gridBucket = gridFSBucket.getBucketName();
+				logger.info("The bucket name is " + gridBucket);
 
 				gridFSFile.getFilename();
 				logger.error("Getting the documents for the file types of pdf/txt/xlsx " + gridFSFile.getFilename());
