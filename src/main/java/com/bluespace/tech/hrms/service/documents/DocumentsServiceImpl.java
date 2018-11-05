@@ -1,127 +1,121 @@
 package com.bluespace.tech.hrms.service.documents;
 
-//import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-//import java.io.IOException;
 import java.io.InputStream;
-/*import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 
-import org.bson.Document;*/
-import org.bson.conversions.Bson;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bluespace.tech.hrms.domain.documents.Documents;
-import com.bluespace.tech.hrms.dto.DocumentsDTO;
+import com.bluespace.tech.hrms.exception.FileStorageException;
 import com.bluespace.tech.hrms.repositories.documents.DocumentsRepository;
+import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
-import com.mongodb.DB;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSBuckets;
-//import com.mongodb.client.gridfs.GridFSUploadStream;
+import com.mongodb.client.gridfs.GridFSUploadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.client.gridfs.model.GridFSUploadOptions;
-import com.mongodb.client.model.Filters;
-import com.mongodb.gridfs.GridFS;
-//import com.mongodb.gridfs.GridFSDBFile;
 
+@Service
 public class DocumentsServiceImpl implements DocumentsService {
 
 	private final static Logger logger = LoggerFactory.getLogger(DocumentsServiceImpl.class);
 	
-	@Autowired private DocumentsRepository documentsRepository;
-	
+	private final Path rootLocation = null;
+
+	@Autowired
+	private DocumentsRepository documentsRepository;
+
 	private Documents documentFiles;
+	
+	@Autowired
 	private MongoClient mongoClient;
 	
-	MongoDatabase db = mongoClient.getDatabase("hrms");
-	GridFSBucket gridFSBucket = GridFSBuckets.create(db, "hrmsfiles");
-	String gridBucket = gridFSBucket.getBucketName();
-	GridFS gridFS = new GridFS((DB) db, gridBucket);
+	@Autowired
+	private GridFsOperations gridFSOperations;
+
+/*	MongoDatabase db = mongoClient.getDatabase("hrms");
+	GridFSBucket gridFSBucket = GridFSBuckets.create(db, "hrmsfiles");*/
 
 	@Override
 	public Documents getAllDocumentsOfEmployee(long employeeId) {
+		MongoDatabase db = mongoClient.getDatabase("hrms");
+		GridFSBucket gridFSBucket = GridFSBuckets.create(db, "hrmsfiles");
 
-		Bson filter = (Bson) this.documentsRepository.findDocumentsByEmployee(employeeId);
-		gridFSBucket.find().filter(filter).forEach(new Block<GridFSFile>() {
+		gridFSBucket.find().forEach(new Block<GridFSFile>() {
+
 			@Override
-			public void apply(final GridFSFile gridFS) {
-				gridFS.getFilename();
+			public void apply(GridFSFile gridFS) {
 				logger.info("File : " + gridFS.getFilename());
 			}
 		});
-		return documentFiles;
 
+		return documentFiles;
 	}
-	
+
 	@Override
 	public Documents getDocuments(long documentId) {
+
 		logger.info("Calling DocumentsRepository to retrieve a documents based on documentId");
-		documentFiles = documentsRepository.findDocumentsByDocumentId(documentId);
+		documentsRepository.findDocumentsByDocumentId(documentId);
 		return documentFiles;
 	}
 
 	@Override
-	public void storeDocument(DocumentsDTO documents, long employeeId, String filePath, String fileName) {
-		try {
-			InputStream inputStream = new FileInputStream(new File(fileName));
-			GridFSUploadOptions options = new GridFSUploadOptions().chunkSizeBytes(25000000);
-					//.metadata(new Document("type", "presentation"));
-			ObjectId fileId = gridFSBucket.uploadFromStream(fileName, inputStream, options);
-			logger.info("The fileId of the uploaded file is: " + fileId.toHexString());
+	public String storeDocument(MultipartFile fileName, long employeeId) throws FileNotFoundException {
+		MongoDatabase db = mongoClient.getDatabase("hrms");
+		GridFSBucket gridFSBucket = GridFSBuckets.create(db, "hrmsfiles");
 
-/*			byte[] data = "Data to upload into GridFS".getBytes(StandardCharsets.UTF_8);
+/*		try {
+			String filePath = fileName.getBytes();
+			String uploadedFile = StringUtils.cleanPath(fileName.getOriginalFilename());
+			logger.info("Name of the file is: " + filePath);
+			logger.info("Name of the file is: " + uploadedFile);
+			if (filePath.contains("..")) {
+				throw new FileStorageException(
+						"Cannot store file with relative path outside current directory: " + fileName);
+			}
+			InputStream inputStream = new FileInputStream(new File(filePath));
+			
+			GridFSUploadOptions options = new GridFSUploadOptions().chunkSizeBytes(1024)
+					.metadata(new Document("type", "pdf file"));
+			ObjectId fileId = gridFSBucket.uploadFromStream(filePath, inputStream, options);
+
+			DBObject metaData = new BasicDBObject();
+			metaData.put("Immigration Documents", inputStream);
+			logger.info("Metadata: " + metaData);
+			gridFSOperations.store(new FileInputStream("inputStream"), metaData);
+
+//			byte[] data = "Data to upload into GridFS ".getBytes(StandardCharsets.UTF_8);
+			byte[] data = fileName.getBytes();
 			GridFSUploadStream uploadStream = gridFSBucket.openUploadStream(filePath, options);
 			uploadStream.write(data);
-			uploadStream.close();*/
-		} catch (FileNotFoundException e) {
-			logger.error("The file was not found and failed with exception: " + e);
-		}
-		//return documentFiles;
-		
-	}
-	
-	@Override
-	public Documents getDocument(String documentName) {
-		Bson filter = Filters.eq("metadata.contentType", "pdf/txt/xlsx");
-		gridFSBucket.find(filter).forEach(new Block<GridFSFile>() {
-			@Override
-			public void apply(GridFSFile gridFSFile) {
-				String gridBucket = gridFSBucket.getBucketName();
-				logger.info("The bucket name is " + gridBucket);
+			uploadStream.close();
+			logger.info("The fileId of the uploaded file is: " + fileId.toHexString());
 
-				gridFSFile.getFilename();
-				logger.error("Getting the documents for the file types of pdf/txt/xlsx " + gridFSFile.getFilename());
-			}
-		});
-/*		GridFSDBFile gridFile = gridFS.findOne(gridBucket);
-		InputStream inputStream = gridFile.getInputStream();
-
-		BufferedReader buffer = null;
-		try {
-			String currentLine;
-			buffer  = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-		} catch (IOException e) {
-			logger.error("File retrieval failed with exception: " + e);
-		} finally {
-			try {
-				if(buffer != null)
-					buffer.close();
-			} catch (IOException ex) {
-				logger.error("Failed with exception:" + ex);
-			}
+		} catch (FileStorageException e) {
+			logger.error("Cannot store the file as it failed with exception: " + e);
+		} catch (FileNotFoundException fe) {
+			logger.error("The file was not found and failed with exception: " + fe);
 		}*/
-		
-		return null;
+		return "Done";
 	}
-	
+
 	@Override
 	public void updateDocument(long documentId) {
 

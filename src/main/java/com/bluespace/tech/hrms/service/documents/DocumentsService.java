@@ -1,20 +1,21 @@
 package com.bluespace.tech.hrms.service.documents;
 
+import java.io.FileNotFoundException;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.bluespace.tech.hrms.domain.documents.Documents;
-import com.bluespace.tech.hrms.dto.DocumentsDTO;
 
 public interface DocumentsService {
 
 	public Documents getAllDocumentsOfEmployee(long employeeId);
-	
+
 	public Documents getDocuments(long paramId);
-	
-	public void storeDocument(DocumentsDTO documents, long employeeId, String filePath, String fileName);
-	
-	public Documents getDocument(String paramString);
-	
+
+	public String storeDocument(MultipartFile file, long employeeId) throws FileNotFoundException;
+
 	public void updateDocument(long documentId);
-	
+
 	public boolean deleteDocument(long documentId);
-	
+
 }
