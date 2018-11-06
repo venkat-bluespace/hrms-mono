@@ -12,7 +12,7 @@ public interface DocumentsService {
 
 	public Documents getDocuments(long paramId);
 
-	public String storeDocument(MultipartFile file, long employeeId) throws FileNotFoundException;
+	public void storeDocument(MultipartFile file, long employeeId) throws FileNotFoundException;
 
 	public void updateDocument(long documentId);
 

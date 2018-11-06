@@ -1,6 +1,9 @@
 package com.bluespace.tech.hrms.controller.documents;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,20 +56,23 @@ public class DocumentsController {
 		this.documentsService.getDocuments(documentId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-
+	
 	@PostMapping(path = "/{employeeId}/documents", consumes = { MediaType.APPLICATION_PDF_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_PDF_VALUE,
 					MediaType.MULTIPART_FORM_DATA_VALUE })
-	public String storeDocuments(@RequestParam("fileName") MultipartFile file, @PathVariable long employeeId,
+	public String storeDocuments(@RequestParam MultipartFile uploadedFile, @PathVariable long employeeId,
 			RedirectAttributes redirectAttributes) throws FileStorageException, FileNotFoundException {
 
 		try {
 			logger.info("Calling DocumentsService for storing documents into the database");
-			this.documentsService.storeDocument(file, employeeId);
+			this.documentsService.storeDocument(uploadedFile, employeeId);
 			redirectAttributes.addFlashAttribute("message",
-					" The file " + file.getOriginalFilename() + " was uploaded successfully.");
+					" The file " + uploadedFile.getOriginalFilename() + " was uploaded successfully.");
+
 		} catch (FileStorageException e) {
 			logger.error("Failed to upload file with exception: " + e);
+		}  catch (IOException io) {
+			logger.error("Failed to upload file with exception: " + io);
 		}
 		return "redirect:/";
 	}
