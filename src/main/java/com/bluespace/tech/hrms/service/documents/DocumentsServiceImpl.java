@@ -5,13 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -28,7 +24,6 @@ import com.bluespace.tech.hrms.repositories.documents.DocumentsRepository;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -45,8 +40,6 @@ import com.mongodb.gridfs.GridFSInputFile;
 public class DocumentsServiceImpl implements DocumentsService {
 
 	private final static Logger logger = LoggerFactory.getLogger(DocumentsServiceImpl.class);
-	
-	private final Path rootLocation = null;
 
 	@Autowired
 	private DocumentsRepository documentsRepository;
@@ -86,7 +79,6 @@ public class DocumentsServiceImpl implements DocumentsService {
 		return documentFiles;
 	}
 	
-	@SuppressWarnings("null")
 	@Override
 	public void storeDocument(MultipartFile uploadedFile, long employeeId) {
 		MongoDatabase db = mongoClient.getDatabase("hrms");
@@ -96,23 +88,26 @@ public class DocumentsServiceImpl implements DocumentsService {
 		logger.info("The GridFSBucket is created with the details: " + gridFSBucket);
 		
 		MongoCollection<Document> collection = db.getCollection("documents");
+		
 		String fileName = uploadedFile.getOriginalFilename();
-		logger.info("Name of the uploaded file is: " + fileName);
 		
 /*		Documents documents = null;*/
 		
 		try {
+			File file = new File(uploadedFile.getOriginalFilename());
+			logger.info("Name of the uploaded file is: " + file);
+			uploadedFile.transferTo(file);
 /*		    GridFSUploadOptions options = new GridFSUploadOptions()
 		                       .chunkSizeBytes(358400)
 		                       .metadata(new Document("type", "ImmigrationFile"));
 
-		    GridFSUploadStream uploadStream = gridFSBucket.openUploadStream(fileName, options);
-		    byte[] data = Files.readAllBytes(new File(fileName).toPath());
+		    GridFSUploadStream uploadStream = gridFSBucket.openUploadStream(file, options);
+		    byte[] data = Files.readAllBytes(new File(file).toPath());
 		    uploadStream.write(data);
 		    uploadStream.close();
 		    System.out.println("The fileId of the uploaded file is: " + uploadStream.getObjectId().toHexString());*/
 		    
-		    GridFSInputFile gridfsFile = gridFS.createFile(new File(fileName));
+		    GridFSInputFile gridfsFile = gridFS.createFile(file);
 		    gridfsFile.setFilename(fileName);
 		    gridfsFile.save();
 		    
@@ -155,7 +150,6 @@ public class DocumentsServiceImpl implements DocumentsService {
 			logger.info("Metadata: " + metaData);
 			gridFSOperations.store(new FileInputStream("inputStream"), metaData);
 
-//			byte[] data = "Data to upload into GridFS ".getBytes(StandardCharsets.UTF_8);
 			byte[] data = uploadedFile.getBytes();
 			GridFSUploadStream uploadStream = gridFSBucket.openUploadStream(uploadedFileName, options);
 			uploadStream.write(data);
