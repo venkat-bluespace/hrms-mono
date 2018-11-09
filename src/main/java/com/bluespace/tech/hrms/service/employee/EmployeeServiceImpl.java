@@ -63,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			uploadedImage.save();*/
 			
 			Calendar currentTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-			newEmployeeDetails.setCreatedOn(currentTime.getTime());
+			newEmployeeDetails.setCreatedOn(currentTime.getTime().toString());
 			newEmployeeDetails = employeeRepository.save(newEmployeeDetails);
 		} catch (MongoException e) {
 			logger.error("Connection failed due to exception: " + e);

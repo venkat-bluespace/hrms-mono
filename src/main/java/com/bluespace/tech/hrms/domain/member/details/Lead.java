@@ -13,9 +13,7 @@ import com.bluespace.tech.hrms.domain.general.Person;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Document(collection="lead")
 @Data
@@ -27,18 +25,18 @@ public class Lead {
 		PASSIVE, TRAINING, INTERVIEW_SCHEDULE, OFFERED, ONBOARD, ACTIVE, DELETED
 	}
 
-	@Getter @Setter @Id private int id;
-	@Getter @Setter private Person person;
-	@Getter @Setter private String source;
-	@Getter @Setter private String presentJobTitle;
-	@Getter @Setter private String persentCompany;
-	@Getter @Setter private String domain;
-	@Getter @Setter private String communication_EmailAddress;
-	@Getter @Setter private String userName;
-	@Getter @Setter @DBRef private List<Client> client;
-	@Getter @Setter private Date dateCreated;
-	@Getter @Setter private Date lastUpdatedDate;
-	@Getter @Setter private Status status;
-	//@Getter @Setter @DBRef private List<User> marketingExecutive;
+	@Id private int id;
+	private Person person;
+	private String source;
+	private String presentJobTitle;
+	private String persentCompany;
+	private String domain;
+	private String communication_EmailAddress;
+	private String userName;
+	@DBRef private List<Client> client;
+	private Date dateCreated;
+	private Date lastUpdatedDate;
+	private Status status;
+	//@DBRef private List<User> marketingExecutive;
 	
 }

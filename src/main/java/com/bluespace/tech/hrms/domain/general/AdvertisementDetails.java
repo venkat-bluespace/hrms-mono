@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.bluespace.tech.hrms.domain.member.details.Lead;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 @Document(collection = "advertisementdetails")
 public class AdvertisementDetails {
 
@@ -23,12 +23,12 @@ public class AdvertisementDetails {
 		VIDEO, AUDIO, WEBURL
 	}
 
-	@Getter @Setter @Id private int id;
-	@Getter @Setter private Lead lead;
-	@Getter @Setter private String url;
-	@Getter @Setter private Visiblity visibility;
-	@Getter @Setter @DBRef private List<CurrentStatus> status;
-	@Getter @Setter private Date dateCreated;
-	@Getter @Setter private Date lastUpdatedDate;
-	@Getter @Setter private Type addType;
+	@Id private int id;
+	private Lead lead;
+	private String url;
+	private Visiblity visibility;
+	@DBRef private List<CurrentStatus> status;
+	private Date dateCreated;
+	private Date lastUpdatedDate;
+	private Type addType;
 }

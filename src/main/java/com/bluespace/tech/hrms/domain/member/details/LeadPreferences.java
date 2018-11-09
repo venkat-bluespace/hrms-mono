@@ -2,10 +2,10 @@ package com.bluespace.tech.hrms.domain.member.details;
 
 import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 // IMP NOTE: This document (table in RDBMS terminology needs to be vetted out)
+@Data
 public class LeadPreferences {
 	
     static public enum SmsOptInStatus
@@ -16,15 +16,15 @@ public class LeadPreferences {
         DECLINED
 	}
     
-	@Getter @Setter private boolean emailOptIn;
-	@Getter @Setter private boolean smsOptIn;
-	@Getter @Setter private boolean wantsHtml;
-	@Getter @Setter private Date dateEmailOptedIn;
-	@Getter @Setter private Date dateEmailOptedOut;
-	@Getter @Setter private Date dateSmsOptedIn;
-	@Getter @Setter private SmsOptInStatus smsOptInStatus = SmsOptInStatus.NOT_SENT ;
-	@Getter @Setter private Date dateSmsOptedOut;
-	@Getter @Setter private String ipAddressEmailOptIn;
-	@Getter @Setter private String ipAddressEmailOptOut;
+	private boolean emailOptIn;
+	private boolean smsOptIn;
+	private boolean wantsHtml;
+	private Date dateEmailOptedIn;
+	private Date dateEmailOptedOut;
+	private Date dateSmsOptedIn;
+	private SmsOptInStatus smsOptInStatus = SmsOptInStatus.NOT_SENT ;
+	private Date dateSmsOptedOut;
+	private String ipAddressEmailOptIn;
+	private String ipAddressEmailOptOut;
 
 }

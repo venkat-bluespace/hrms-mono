@@ -17,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Document(collection = "binaryattachment")
 @Data
@@ -50,19 +49,19 @@ public class BinaryAttachment {
 		}
 	}
 
-	@Getter @Setter @Id private ObjectId _id;
-	@Getter @Setter private String name;
-	@Getter @Setter private Date timestamp;
-	@Getter @Setter private String description;
-	@Getter @Setter private long size;
-	@Getter @Setter private MimeType mimeType;
+	@Id private ObjectId _id;
+	private String name;
+	private Date timestamp;
+	private String description;
+	private long size;
+	private MimeType mimeType;
 	@Getter @Transient private byte[] fileAttachment;
-	@Getter @Setter private String publicId;
-	@Getter @Setter private String title;
-	@Getter @Setter private String url;
-	@Getter @Setter private String clientId;
-	@Getter @Setter private String imagePath;
-	@Getter @Setter private boolean imageTransferred;
+	private String publicId;
+	private String title;
+	private String url;
+	private String clientId;
+	private String imagePath;
+	private boolean imageTransferred;
 	
 	public Blob getData() {
         return null;

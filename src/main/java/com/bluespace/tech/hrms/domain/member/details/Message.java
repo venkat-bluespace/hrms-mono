@@ -10,9 +10,7 @@ import com.bluespace.tech.hrms.domain.general.CurrentStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Document(collection="message")
 @Data
@@ -24,12 +22,12 @@ public class Message {
 		 PRIVATE,PUBLIC
 	}
 	
-	@Getter @Setter @Id private int id;
-	@Getter @Setter private String message;
-	@Getter @Setter private Date dateCreated;
-	@Getter @Setter private Type  messageType;
-	@Getter @Setter private Lead lead;
-	@Getter @Setter private List<CurrentStatus> messageStatus;
-	@Getter @Setter private Date lastUpdatedDate;
+	@Id private int id;
+	private String message;
+	private Date dateCreated;
+	private Type  messageType;
+	private Lead lead;
+	private List<CurrentStatus> messageStatus;
+	private Date lastUpdatedDate;
 	
 }

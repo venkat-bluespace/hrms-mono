@@ -3,8 +3,6 @@ package com.bluespace.tech.hrms.controller.documents;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +58,7 @@ public class DocumentsController {
 	@PostMapping(path = "/{employeeId}/documents", consumes = { MediaType.APPLICATION_PDF_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_PDF_VALUE,
 					MediaType.MULTIPART_FORM_DATA_VALUE })
-	public String storeDocuments(@RequestParam MultipartFile uploadedFile, @PathVariable long employeeId,
+	public String storeDocuments(@RequestParam("file") MultipartFile uploadedFile, @PathVariable long employeeId,
 			RedirectAttributes redirectAttributes) throws FileStorageException, FileNotFoundException {
 
 		try {

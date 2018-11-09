@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -84,10 +83,10 @@ public class DocumentsServiceImpl implements DocumentsService {
 		MongoDatabase db = mongoClient.getDatabase("hrms");
 		GridFSBucket gridFSBucket = GridFSBuckets.create(db, "hrmsfiles");
 		
-		GridFS gridFS = new GridFS((DB) db, gridFSBucket.toString());
+/*		GridFS gridFS = new GridFS((DB) db, gridFSBucket.toString());
 		logger.info("The GridFSBucket is created with the details: " + gridFSBucket);
 		
-		MongoCollection<Document> collection = db.getCollection("documents");
+		MongoCollection<Document> collection = db.getCollection("documents");*/
 		
 		String fileName = uploadedFile.getOriginalFilename();
 		
@@ -97,19 +96,19 @@ public class DocumentsServiceImpl implements DocumentsService {
 			File file = new File(uploadedFile.getOriginalFilename());
 			logger.info("Name of the uploaded file is: " + file);
 			uploadedFile.transferTo(file);
-/*		    GridFSUploadOptions options = new GridFSUploadOptions()
+		    GridFSUploadOptions options = new GridFSUploadOptions()
 		                       .chunkSizeBytes(358400)
 		                       .metadata(new Document("type", "ImmigrationFile"));
 
-		    GridFSUploadStream uploadStream = gridFSBucket.openUploadStream(file, options);
-		    byte[] data = Files.readAllBytes(new File(file).toPath());
+		    GridFSUploadStream uploadStream = gridFSBucket.openUploadStream(fileName, options);
+		    byte[] data = Files.readAllBytes(new File(file.toString()).toPath());
 		    uploadStream.write(data);
 		    uploadStream.close();
-		    System.out.println("The fileId of the uploaded file is: " + uploadStream.getObjectId().toHexString());*/
+		    System.out.println("The fileId of the uploaded file is: " + uploadStream.getObjectId().toHexString());
 		    
-		    GridFSInputFile gridfsFile = gridFS.createFile(file);
+/*		    GridFSInputFile gridfsFile = gridFS.createFile(file);
 		    gridfsFile.setFilename(fileName);
-		    gridfsFile.save();
+		    gridfsFile.save();*/
 		    
 		    BasicDBObject info = new BasicDBObject();
 		    info.put("fileName", documentFiles.getFileName());

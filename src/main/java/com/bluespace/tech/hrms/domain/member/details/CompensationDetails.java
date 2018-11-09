@@ -7,9 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Document(collection="compensationdetails")
 @Data
@@ -21,10 +19,10 @@ public class CompensationDetails {
         FULLTIME,HOURLY
     }
     
-    @Getter @Setter @Id private int id;
-    @Getter @Setter private List<Lead> lead;
-    @Getter @Setter private String currencyCode;
-    @Getter @Setter private Double hourlyRate;
-    @Getter @Setter private EmploymentType  employmentDetail;
+    @Id private int id;
+    private List<Lead> lead;
+    private String currencyCode;
+    private Double hourlyRate;
+    private EmploymentType  employmentDetail;
 	
 }

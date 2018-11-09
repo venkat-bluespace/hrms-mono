@@ -15,9 +15,7 @@ import com.bluespace.tech.hrms.domain.member.details.Lead;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Document(collection="workhistory")
 @Data
@@ -25,18 +23,18 @@ import lombok.Setter;
 @NoArgsConstructor
 public class WorkHistory {
 
-	@Getter @Setter @Id private int id;
-	@Getter @Setter private Date startDate;
-	@Getter @Setter private Date endDate;
-	@Getter @Setter private String company;
-	@Getter @Setter private String jobTitle;
-	@Getter @Setter private List<Address> address;
-	@Getter @Setter private String jobDuties;
-	@Getter @Setter private List<Lead> lead;
-	@Getter @Setter private Boolean currentEmployer=false;
-	@Getter @Setter private Date dateCreated;
-	@Getter @Setter private Date lastUpdatedDate;
-	@Getter @Setter private List<CurrentStatus> status;
+	@Id private int id;
+	private Date startDate;
+	private Date endDate;
+	private String company;
+	private String jobTitle;
+	private List<Address> address;
+	private String jobDuties;
+	private List<Lead> lead;
+	private Boolean currentEmployer=false;
+	private Date dateCreated;
+	private Date lastUpdatedDate;
+	private List<CurrentStatus> status;
 
 	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
 	

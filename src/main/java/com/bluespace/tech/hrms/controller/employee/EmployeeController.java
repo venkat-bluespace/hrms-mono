@@ -1,5 +1,6 @@
 package com.bluespace.tech.hrms.controller.employee;
 
+//import java.io.InputStream;
 import java.io.IOException;
 
 import java.text.ParseException;
@@ -38,8 +39,10 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.mongodb.MongoException;
 
+//import com.sun.jersey.multipart.FormDataParam;
+
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/")
 public class EmployeeController {
 
@@ -63,8 +66,9 @@ public class EmployeeController {
 	@GetMapping(path = "/employee", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
-	public List<EmployeeDetails> getAllEmployees() {
-		return employeeService.getAllEmployees();
+	public List<EmployeeDetailsDTO> getAllEmployees() {
+		List<EmployeeDetailsDTO> empDTOList = EmployeeDetailsMapper.mapEntitytoDTOList(employeeService.getAllEmployees());
+		return empDTOList;
 	}
 	
 	// Get Employee details based off his id
@@ -101,7 +105,7 @@ public class EmployeeController {
 			HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException, ParseException {
 
 		EmployeeDetailsDTO employeeDetails = EmployeeDetailsMapper.convertRequestToObject(request);
-		employeeDetails.setProfileImage(multipartFile);
+		employeeDetails.setProfileImage(EmployeeDetailsMapper.insert(multipartFile));
 		EmployeeDetails newEmployeeDetails = employeeService.createNewEmployee(employeeDetails);
 		EmployeeDetailsDTO employeeDetailsDto = EmployeeDetailsMapper.mapEntityToDTO(newEmployeeDetails);
 		return employeeDetailsDto;

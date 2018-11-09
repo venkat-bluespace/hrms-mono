@@ -11,9 +11,7 @@ import com.bluespace.tech.hrms.domain.member.details.Lead;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Document(collection = "recommendations")
 @Data
@@ -25,11 +23,11 @@ public class Recommendations {
 		APPROVED, DENIED, DELETED
 	}
 
-	@Getter @Setter @Id private int id;
-	@Getter @Setter @DBRef private List<Lead> lead;
-	@Getter @Setter @DBRef private List<Lead> recommendedLead;
-	@Getter @Setter @DBRef private List<Status> status;
-	@Getter @Setter private Date dateCreated;
-	@Getter @Setter private Date recommendedDate;
+	@Id private int id;
+	@DBRef private List<Lead> lead;
+	@DBRef private List<Lead> recommendedLead;
+	@DBRef private List<Status> status;
+	private Date dateCreated;
+	private Date recommendedDate;
 
 }

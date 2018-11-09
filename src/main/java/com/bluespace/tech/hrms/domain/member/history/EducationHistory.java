@@ -12,9 +12,7 @@ import com.bluespace.tech.hrms.domain.member.details.Lead;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Document(collection="educationhistory")
 @Data
@@ -22,17 +20,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EducationHistory {
 
-	@Getter @Setter @Id private int id;
-	@Getter @Setter private List<Address> address;
-	@Getter @Setter private List<Lead> lead;
-	@Getter @Setter private String schoolName;
-	@Getter @Setter private String universityName;
-	@Getter @Setter private DegreeType degreeType;
-	@Getter @Setter private String specilization;
-	@Getter @Setter private int startYear;
-	@Getter @Setter private int endYear;
-	@Getter @Setter private Date dateCreated;
-	@Getter @Setter private Date lastUpdatedDate;
-	@Getter @Setter private CurrentStatus status;
+	@Id private int id;
+	private List<Address> address;
+	private List<Lead> lead;
+	private String schoolName;
+	private String universityName;
+	private DegreeType degreeType;
+	private String specilization;
+	private int startYear;
+	private int endYear;
+	private Date dateCreated;
+	private Date lastUpdatedDate;
+	private CurrentStatus status;
 	
 }

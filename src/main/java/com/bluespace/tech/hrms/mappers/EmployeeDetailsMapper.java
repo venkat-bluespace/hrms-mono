@@ -4,8 +4,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,11 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bluespace.tech.hrms.domain.employee.EmployeeDetails;
 import com.bluespace.tech.hrms.dto.EmployeeDetailsDTO;
+import com.bluespace.tech.hrms.util.constants.Constants;
 
 public class EmployeeDetailsMapper {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeDetailsMapper.class);
-
+	
 	public static EmployeeDetails mapDTOToEntity(EmployeeDetailsDTO empDetailsDTO, long id) {
 		EmployeeDetails empDetails = new EmployeeDetails();
 		empDetails.setEmployeeId(id);
@@ -39,7 +45,7 @@ public class EmployeeDetailsMapper {
 		empDetails.setSsn(empDetailsDTO.getSsn());
 		empDetails.setDateOfBirth(empDetailsDTO.getDateOfBirth());
 		empDetails.setGender(empDetailsDTO.getGender());
-		empDetails.setProfileImage(insert(empDetailsDTO.getProfileImage()));
+		empDetails.setProfileImage(empDetailsDTO.getProfileImage());
 		empDetails.setPrimaryContact(empDetailsDTO.getPrimaryContact());
 		empDetails.setPrimaryContactAltPhone(empDetailsDTO.getPrimaryContactAltPhone());
 		empDetails.setPrimaryContactPhone(empDetailsDTO.getPrimaryContactPhone());
@@ -68,9 +74,9 @@ public class EmployeeDetailsMapper {
 		empDetails.setModifiedOn(empDetailsDTO.getModifiedOn());
 		return empDetails;
 	}
-
-	public static EmployeeDetailsDTO mapEntityToDTO(EmployeeDetails empDetailsDTO) {
-		EmployeeDetailsDTO empDetails = new EmployeeDetailsDTO();
+	public static EmployeeDetailsDTO mapEntityToDTO(EmployeeDetails empDetailsDTO)
+	{
+		EmployeeDetailsDTO empDetails= new EmployeeDetailsDTO();
 		empDetails.setEmployeeId(empDetailsDTO.getEmployeeId());
 		empDetails.setFirstName(empDetailsDTO.getFirstName());
 		empDetails.setLastName(empDetailsDTO.getLastName());
@@ -86,7 +92,7 @@ public class EmployeeDetailsMapper {
 		empDetails.setSsn(empDetailsDTO.getSsn());
 		empDetails.setDateOfBirth(empDetailsDTO.getDateOfBirth());
 		empDetails.setGender(empDetailsDTO.getGender());
-		empDetails.setProfileImage(retrieve(empDetailsDTO.getProfileImage()));
+		empDetails.setProfileImage(empDetailsDTO.getProfileImage());
 		empDetails.setPrimaryContact(empDetailsDTO.getPrimaryContact());
 		empDetails.setPrimaryContactAltPhone(empDetailsDTO.getPrimaryContactAltPhone());
 		empDetails.setPrimaryContactPhone(empDetailsDTO.getPrimaryContactPhone());
@@ -116,12 +122,12 @@ public class EmployeeDetailsMapper {
 		return empDetails;
 	}
 
-	static Binary insert(MultipartFile filename) {
-		final Path rootLocation = Paths.get("resources/files");
+	public static String insert(MultipartFile filename) {
+		final Path rootLocation = Paths.get(Constants.UPLOAD_LOCATION);
 
 		System.out.println(filename.getOriginalFilename());
 		System.out.println(rootLocation.toUri());
-
+		
 		try {
 			Files.copy(filename.getInputStream(), rootLocation.resolve(filename.getOriginalFilename()));
 		} catch (IOException e) {
@@ -129,19 +135,45 @@ public class EmployeeDetailsMapper {
 		}
 
 		Binary data = null;
+
+		/* byte b[] = Base64.decodeBase64(filename); */
+
 		byte b[] = Base64.decodeBase64(filename.getOriginalFilename());
 		data = new Binary(b);
-		return data;
+		logger.info("Binary data: " + data);
+		return filename.getOriginalFilename();
+	}
+	public static Date convertmillistodate(long millis) throws ParseException
+	{
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+		//long milliSeconds= Long.parseLong(millis);
+		System.out.println(millis);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(millis);
+		Date date=formatter.parse(calendar.getTime().toString());
+		System.out.println(date); 
+		return date;
 	}
 
-	public static MultipartFile retrieve(Binary filename) {
+	/*public static MultipartFile retrieve(String string) {
 		String data = null;
-		byte imageData[] = filename.getData();
+		byte imageData[] = string.getData();
 		data = Base64.encodeBase64String(imageData);
 		logger.info("Data of the multipart file: " + data);
 
 		MultipartFile multiPart = null;
 		return multiPart;
+	}*/
+	public static List<EmployeeDetailsDTO> mapEntitytoDTOList(List<EmployeeDetails> emplist)
+	{
+		List<EmployeeDetailsDTO> empDTOList = new ArrayList<EmployeeDetailsDTO>();
+		for(EmployeeDetails x:emplist)
+		{
+			empDTOList.add(mapEntityToDTO(x));
+		}
+		return empDTOList;
 	}
 
 	public static EmployeeDetailsDTO convertRequestToObject(HttpServletRequest request) throws ParseException {
@@ -168,7 +200,7 @@ public class EmployeeDetailsMapper {
 			dto.setSsn(request.getParameter("ssn"));
 		}
 		if (request.getParameter("dateOfBirth") != null) {
-			dto.setDateOfBirth(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("dateOfBirth")));
+			dto.setDateOfBirth(request.getParameter("dateOfBirth"));
 		}
 		if (request.getParameter("gender") != null) {
 			dto.setGender(request.getParameter("gender"));
@@ -210,15 +242,14 @@ public class EmployeeDetailsMapper {
 			dto.setSecondaryContactAltPhone(request.getParameter("secondaryContactAltPhone"));
 		}
 		if (request.getParameter("hireDate") != null && !(request.getParameter("hireDate")).isEmpty()) {
-			dto.setHireDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("hireDate")));
+			dto.setHireDate(request.getParameter("hireDate"));
 		}
 		if (request.getParameter("terminationDate") != null && !(request.getParameter("terminationDate").isEmpty())) {
-			dto.setTerminationDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("terminationDate")));
+			dto.setTerminationDate(request.getParameter("terminationDate"));
 		}
 		if (request.getParameter("employmentLastDate") != null
 				&& (!request.getParameter("employmentLastDate").isEmpty())) {
-			dto.setEmploymentLastDate(
-					new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("employmentLastDate")));
+			dto.setEmploymentLastDate(request.getParameter("employmentLastDate"));
 		}
 		if (request.getParameter("clientName") != null) {
 			dto.setClientName(request.getParameter("clientName"));
